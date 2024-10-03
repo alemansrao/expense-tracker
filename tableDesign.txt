@@ -1,0 +1,31 @@
+-Users
+    userId
+    password
+    email
+    createdAt
+
+-Categories
+    categoryID
+    categoryName
+    userId
+    createdAt
+
+-Transaction
+    transaction_id
+    userId
+    category_id
+    type
+    amount
+    description
+    date
+    created_at
+
+-budget
+    budget_id
+    userId
+    category_id
+    amount
+    start_date
+    end_date
+
+
