@@ -1,7 +1,7 @@
 export const getCategory = async (username: string = "alemansrao") => {
   try {
     //add Access-Control-Allow-Origin
-    const response = await fetch(`http://localhost:3000/api/category?username=${username}`,
+    const response = await fetch(`https://expense-tracker-plum-three.vercel.app/api/category?username=${username}`,
       { headers: { "Access-Control-Allow-Origin": "*" } });
     if (!response.ok) throw new Error("Failed to fetch categories");
 
@@ -15,7 +15,7 @@ export const getCategory = async (username: string = "alemansrao") => {
 
 export const submitTransaction = async (transactionData: any) => {
   try {
-    const response = await fetch("http://localhost:3000/api/transaction", {
+    const response = await fetch("https://expense-tracker-plum-three.vercel.app/api/transaction", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(transactionData)
@@ -29,7 +29,7 @@ export const submitTransaction = async (transactionData: any) => {
 
 export const getLimit = async (username: string = "alemansrao", category: string) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/limit?username=${username}&category=${category}`);
+    const response = await fetch(`https://expense-tracker-plum-three.vercel.app/api/limit?username=${username}&category=${category}`);
     if (!response.ok) throw new Error("Failed to fetch limit");
     const data = await response.json();
     return data.categories[0].limit;
@@ -41,7 +41,7 @@ export const getLimit = async (username: string = "alemansrao", category: string
 
 export const createCategory = async (categoryData: any) => {
   try {
-    const response = await fetch("http://localhost:3000/api/category", {
+    const response = await fetch("https://expense-tracker-plum-three.vercel.app/api/category", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(categoryData)
@@ -55,7 +55,7 @@ export const createCategory = async (categoryData: any) => {
 
 export const updateLimit = async (limitData: any) => {
   try {
-    const response = await fetch("http://localhost:3000/api/limit", {
+    const response = await fetch("https://expense-tracker-plum-three.vercel.app/api/limit", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(limitData)
