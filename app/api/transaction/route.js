@@ -22,6 +22,6 @@ export async function POST(request) {
 
 export async function GET(request) {
   await ConnectMongoDb();
-  const transactions = await Transaction.find().sort({ createdAt: -1 });
+  const transactions = await Transaction.find().sort({ date: -1 });
   return NextResponse.json({ transactions }, { status: 200 });
 }

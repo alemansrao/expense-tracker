@@ -27,7 +27,7 @@ const Navbar = (props: Props) => {
             {/* <li><a><PieChart size={16} /> Category</a></li> */}
             <div className="divider m-0"></div>
             <li><a><File size={16} /> Reports</a></li>
-            <li><a><Settings size={16} /> Settings</a></li>
+            <li><Link href={"/settings"}><Settings size={16} />Settings</Link></li>
             {/*in settings
              setting budgets
             setting categories */}

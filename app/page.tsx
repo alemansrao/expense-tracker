@@ -4,6 +4,7 @@ import BarChart from './Components/BarChart'
 import RadarChartComponent from './Components/RadarChart'
 type Props = {}
 
+
 const HomePage = (props: Props) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 text-white  gap-2 p-3">

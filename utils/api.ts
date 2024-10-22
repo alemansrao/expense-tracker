@@ -1,6 +1,8 @@
 export const getCategory = async (username: string = "alemansrao") => {
   try {
-    const response = await fetch(`http://localhost:3000/api/category?username=${username}`);
+    //add Access-Control-Allow-Origin
+    const response = await fetch(`http://localhost:3000/api/category?username=${username}`,
+      { headers: { "Access-Control-Allow-Origin": "*" } });
     if (!response.ok) throw new Error("Failed to fetch categories");
 
     const data = await response.json();
@@ -10,8 +12,6 @@ export const getCategory = async (username: string = "alemansrao") => {
     return [];
   }
 };
-
-
 
 export const submitTransaction = async (transactionData: any) => {
   try {
@@ -26,3 +26,42 @@ export const submitTransaction = async (transactionData: any) => {
     console.error("Error submitting transaction:", error);
   }
 };
+
+export const getLimit = async (username: string = "alemansrao", category: string) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/limit?username=${username}&category=${category}`);
+    if (!response.ok) throw new Error("Failed to fetch limit");
+    const data = await response.json();
+    return data.categories[0].limit;
+  } catch (error) {
+    console.error("Error fetching limit:", error);
+    return 0;
+  }
+};
+
+export const createCategory = async (categoryData: any) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/category", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(categoryData)
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+
+export const updateLimit = async (limitData: any) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/limit", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(limitData)
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

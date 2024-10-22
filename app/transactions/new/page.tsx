@@ -7,53 +7,71 @@ import { validateTransaction } from '@/utils/validation';
 import { submitTransaction } from '@/utils/api';
 type Props = {}
 
+type Category = {
+    name: string;
+    type: string; // Adjust this based on your data structure
+    username: string;
+    _id: string;
+};
+
 const notes = ['Monthly spend', 'Savings', 'Credit Card', 'Debit Card', 'Other'];
 
 const page = (props: Props) => {
     const [type, setType] = useState("Expense");
     const [amount, setAmount] = useState(Math.round(Math.random() * 1000));
     const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-    const [category, setCategory] = useState("Groceries");
+    const [category, setCategory] = useState("");
     const [username, setUsername] = useState("alemansrao");
     const [description, setDescription] = useState(notes[Math.floor(Math.random() * notes.length)]);
 
     const [allCategories, setAllCategories] = useState([]); // Store all categories (both Income and Expense)
-    const [allowedCategories, setAllowedCategories] = useState([]); // Store filtered categories based on type
+    const [allowedCategories, setAllowedCategories] = useState<Category[]>([]); // Initialize as an empty array // Store filtered categories based on type
 
     const validateData = () => {
         return type && amount > 0 && date && category && description;
     };
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.preventDefault();
-      if (!validateTransaction(type, amount, date, category, description)) {
-        toast.error('Please fill all the fields', { position: "bottom-right", autoClose: 3000, theme: "dark" });
-        return;
-      }
-  
-      const response = await submitTransaction({ type, amount, date, category, description, username });
-      if (response && response.status === 201) {
-        toast.success('Transaction recorded', { position: "bottom-right", autoClose: 3000, theme: "dark" });
-        setAmount(0);
-        setDate(new Date().toISOString().split("T")[0]);
-        setCategory("Groceries");
-        setDescription("");
-      } else {
-        toast.error('Failed to record transaction', { position: "bottom-right", autoClose: 3000, theme: "dark" });
-      }
+        e.preventDefault();
+        if (!category) {
+            console.log("Please select a category");
+        }
+        if (!validateTransaction(type, amount, date, category, description)) {
+            toast.error('Please fill all the fields', { position: "bottom-right", autoClose: 3000, theme: "dark" });
+            return;
+        }
+
+        const response = await submitTransaction({ type, amount, date, category, description, username });
+        if (response && response.status === 201) {
+            toast.success('Transaction recorded', { position: "bottom-right", autoClose: 3000, theme: "dark" });
+            setAmount(0);
+            setDate(new Date().toISOString().split("T")[0]);
+            setCategory("Groceries");
+            setDescription("");
+        } else {
+            toast.error('Failed to record transaction', { position: "bottom-right", autoClose: 3000, theme: "dark" });
+        }
     };
 
-    
+
 
     useEffect(() => {
         const fetchCategories = async () => {
-          const categories = await getCategory();
-          setAllCategories(categories);
-          setAllowedCategories(categories.filter((cat: any) => cat.type === type));
+            const categories = await getCategory();
+            setAllCategories(categories);
+            setAllowedCategories(categories.filter((cat: any) => cat.type === type));
         };
-    
+
         fetchCategories();
-      }, []);
+    }, []);
+
+    useEffect(() => {
+        if (allowedCategories.length > 0) {
+            console.log(allowedCategories);
+            setCategory(allowedCategories[0].name); // Safely access the first category
+        }
+    }, [allowedCategories]);
+
 
     useEffect(() => {
         // Filter categories based on type without making an API call
@@ -73,8 +91,8 @@ const page = (props: Props) => {
                             <div className="label">
                                 <span className="label-text-alt">Transaction type</span>
                             </div>
-                            <select className="select select-bordered w-full max-w-xs md:max-w-md" onChange={(e) => setType(e.target.value)} value={type}>
-                                <option value="Income">Income</option>
+                            <select className="select select-bordered w-full max-w-xs md:max-w-md"
+                                onChange={(e) => setType(e.target.value)} value={type}>
                                 <option value="Income">Income</option>
                                 <option value="Expense">Expense</option>
                             </select>
@@ -124,7 +142,7 @@ const page = (props: Props) => {
                                 <span className="label-text-alt">Transaction Note</span>
                             </div>
                             <input name="description" type="text"
-                            maxLength={150}
+                                maxLength={150}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 placeholder="Type here" className="input input-bordered w-full max-w-xs md:max-w-md" />
