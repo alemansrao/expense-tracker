@@ -16,7 +16,7 @@ type Category = {
 
 const notes = ['Monthly spend', 'Savings', 'Credit Card', 'Debit Card', 'Other'];
 
-const page = (props: Props) => {
+const Page = (props: Props) => {
     const [type, setType] = useState("Expense");
     const [amount, setAmount] = useState(Math.round(Math.random() * 1000));
     const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
@@ -156,7 +156,7 @@ const page = (props: Props) => {
     );
 };
 
-export default page;
+export default Page;
 
 
 
