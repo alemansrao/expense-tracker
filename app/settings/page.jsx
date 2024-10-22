@@ -5,7 +5,7 @@ import { getCategory } from '@/utils/api';
 import { getLimit } from '@/utils/api'
 import LimitSetting from '@/app/Components/LimitSetting'
 import AddCategory from '@/app/Components/AddCategory'
-const page = () => {
+const Page = () => {
   const [temp, setTemp] = useState(true)
   const [allCategories, setAllCategories] = useState([]);
   const [expenseCategory, setExpenseCategory] = useState([]);
@@ -31,4 +31,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
