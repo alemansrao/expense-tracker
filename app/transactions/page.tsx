@@ -19,22 +19,23 @@ type Transaction = {
 };
 const Transaction = (props: Props) => {
   const [transactions, setTransactions] = useState([])
-  const [loading, setLoading] = useState(false);
   const [editTransaction, setEditTransaction] = useState<Transaction>();
   function formatDate(dateString: string | any, flag: number = 0): string {
     if (dateString) {
       const date: Date = new Date(dateString);
       const day: number = date.getDate();
       const month: string = date.toLocaleString("default", { month: "short" });
-      const monthNumeric: string = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+      const monthNumeric: string = String(date.getMonth() + 1).padStart(2, "0");
       const year: number = date.getFullYear();
+
       if (flag === 1) {
-        // Return in YYYY-MM-DD format
-        console.log(`${year}-${monthNumeric}-${day < 10 ? "0" + day : day}`)
         return `${year}-${monthNumeric}-${day < 10 ? "0" + day : day}`;
       }
       return `${day < 10 ? "0" + day : day}-${month}-${year}`;
     }
+
+    // Provide a fallback return value
+    return "";
   }
 
   const getTransactions = async () => {
