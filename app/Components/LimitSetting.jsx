@@ -12,7 +12,7 @@ const LimitSetting = ({ expenseCategory }) => {
     // Fetch limit for the selected category
     const fetchLimit = async (category) => {
         const fetchedLimit = await getLimit(Currentusername, category);
-        setLimit(fetchedLimit); // Update limit state
+        setLimit(fetchedLimit.category.limit); // Update limit state
         setInitialLimit(fetchedLimit); // Update initial limit for comparison
     };
 
