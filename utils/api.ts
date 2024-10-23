@@ -53,6 +53,17 @@ export const createCategory = async (categoryData: any) => {
   }
 };
 
+export const deleteCategory = async (id: string) => {
+  try {
+    const response = await fetch(`/api/category/${id}`, {
+      method: "DELETE",
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
 
 export const updateLimit = async (limitData: any) => {
   try {

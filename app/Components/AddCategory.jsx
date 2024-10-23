@@ -66,7 +66,7 @@ const AddCategory = (props) => {
     return (
         <form onSubmit={handleSubmit} > {/* Add form tag */}
             <div className="card bg-neutral text-neutral-content w-full">
-                <div className="card-body items-center text-center">
+                <div className="card-body items-center text-center justify-evenly">
                     <h2 className="card-title">{"Add Category"}</h2>
 
                     <div className='flex flex-row gap-3 items-center w-full justify-around'>
@@ -92,8 +92,8 @@ const AddCategory = (props) => {
                     </div>
 
                     <div className='flex flex-row gap-3 items-center w-full justify-around'>
-                        <label className="input input-bordered flex items-center gap-2 w-full max-w-sm md:max-w-md">
-                            Limit ₹
+                        <label className="input input-bordered flex items-center w-full max-w-sm md:max-w-md">
+                            Limit
                             <input
                                 type="number"
                                 className="grow"
@@ -104,6 +104,8 @@ const AddCategory = (props) => {
                                 onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
                             />
                             <ArrowRight
+                                size={24}
+                                
                                 className='hover:cursor-pointer bg-primary rounded-lg text-white'
                                 type="submit" // Change ArrowRight to submit the form
                                 onClick={handleSubmit}

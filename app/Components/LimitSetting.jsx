@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useState, useRef } from 'react';
 import { ArrowRight } from 'react-feather';
 import { getLimit, updateLimit } from '@/utils/api';
 import { toast } from 'react-toastify';
@@ -8,6 +8,10 @@ const LimitSetting = ({ expenseCategory }) => {
     const [currentCategory, setCurrentCategory] = useState(''); // State for current category
     const [limit, setLimit] = useState(''); // State for limit
     const [initialLimit, setInitialLimit] = useState(''); // Store initial fetched limit
+
+    const [changedLimit, setChangedLimit] = useState(false)
+    // Ref for the ArrowRight button
+    const arrowButtonRef = useRef(null);
 
     // Fetch limit for the selected category
     const fetchLimit = async (category) => {
@@ -21,14 +25,21 @@ const LimitSetting = ({ expenseCategory }) => {
         if (expenseCategory.length > 0) {
             const initialCategory = expenseCategory[0].name;
             setCurrentCategory(initialCategory);
-            fetchLimit(initialCategory);
+            setLimit(expenseCategory[0].limit);
+            // fetchLimit(initialCategory);
+            setChangedLimit(false)
         }
     }, [expenseCategory]);
 
     // Fetch limit when the current category changes
     useEffect(() => {
-        if (currentCategory) {
-            fetchLimit(currentCategory);
+        // if (currentCategory) {
+        //     fetchLimit(currentCategory);
+        // }
+        if (expenseCategory.length > 0) {
+            const temp = expenseCategory.find((cat) => cat.name === currentCategory);
+            console.log('Limit for ' + currentCategory + ' is ' + temp.limit)
+            setLimit(temp.limit);
         }
     }, [currentCategory]);
 
@@ -53,7 +64,7 @@ const LimitSetting = ({ expenseCategory }) => {
 
     // Handle the right arrow click to submit the form
     const handleRightArrowClick = () => {
-        if (limit === initialLimit) {
+        if (!changedLimit) {
             toast.info('No changes made to the limit.');
         } else if (limit < 500) {
             toast.error('Limit should be greater than ₹500.');
@@ -61,12 +72,18 @@ const LimitSetting = ({ expenseCategory }) => {
             toast.error('Limit should be less than ₹500,000.');
         } else {
             handleSubmit(limit, currentCategory);
+            setChangedLimit(false)
+        }
+
+        // Set focus to the ArrowRight button when clicked
+        if (arrowButtonRef.current) {
+            arrowButtonRef.current.focus();
         }
     };
 
     return (
         <div className="card bg-neutral text-neutral-content w-full">
-            <div className="card-body items-center text-center">
+            <div className="card-body items-center text-center justify-evenly">
                 <h2 className="card-title">Set Limit</h2>
 
                 {/* Category Selection */}
@@ -89,7 +106,7 @@ const LimitSetting = ({ expenseCategory }) => {
                 </div>
 
                 {/* Limit Input */}
-                <div className='flex flex-row gap-3 items-center w-full justify-around'>
+                <div className='flex flex-row gap-3 items-center w-full justify-evenly'>
                     {limit ? (
                         <label className="input input-bordered flex items-center gap-2 w-full max-w-sm md:max-w-md">
                             ₹
@@ -99,11 +116,13 @@ const LimitSetting = ({ expenseCategory }) => {
                                 step={1000}
                                 min={500}
                                 value={limit}
-                                onChange={(e) => setLimit(e.target.value)} // Update limit value
+                                onChange={(e) => { setLimit(e.target.value); setChangedLimit(true) }} // Update limit value
                             />
                             <ArrowRight
+                            size={24}
                                 className='hover:cursor-pointer bg-primary rounded-lg text-white'
                                 onClick={handleRightArrowClick} // Trigger limit submission
+                                ref={arrowButtonRef} // Attach ref to ArrowRight button
                             />
                         </label>
                     ) : (
