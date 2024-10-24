@@ -14,7 +14,7 @@ const HomePage = (props: Props) => {
   const handleToast = () => {
     if (session) {
       const { user } = session;
-      const userInfo = user?.image ? `${user.name} (${user.email} ${user?.image}) - Image Available`
+      const userInfo = user?.image ? `${user.name} (${user.email}) - Image Available`
         : `${user?.name} (${user?.email}) - No Image`;
 
       toast.success(userInfo);
