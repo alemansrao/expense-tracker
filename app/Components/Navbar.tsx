@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 type Props = {}
 import Dropdown from './Dropdown'
-import { File, Layout, List, Menu, Monitor, PieChart, Plus, Search, Settings, TrendingUp } from 'react-feather'
+import { File, Layout, List, Menu, Monitor, PieChart, Plus, Search, Settings, TrendingUp, User } from 'react-feather'
 const Navbar = (props: Props) => {
   return (<>
     <div className="navbar z-50 bg-black">
@@ -18,9 +18,11 @@ const Navbar = (props: Props) => {
         </button> */}
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
           <div className="w-10 rounded-full">
+            {/* <User className='w-full h-full'/> */}
             <img
+              className="invert"
               alt="Tailwind CSS Navbar component"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+              src="https://lh3.googleusercontent.com/a/ACg8ocLtdJAs30aqynveHLEQBLSjp2qsyl4TiCWuCNGW-K6IjcLGVmnwaA=s96-c" />
           </div>
         </div>
       </div>

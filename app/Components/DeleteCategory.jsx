@@ -1,7 +1,37 @@
+import { deleteCategory } from '@/utils/api';
 import React, { useEffect, useState } from 'react'
-
-const DeleteCategory = ({ categories }) => {
+import { toast } from 'react-toastify';
+const DeleteCategory = ({ categories, setTemp }) => {
     const [currentCategory, setCurrentCategory] = useState(null);
+    const handleDelete = async () => {
+
+        if (currentCategory) {
+            const response = await deleteCategory(currentCategory);
+
+            // Check if the response is OK
+            if (response && response.ok) {
+                // Optionally, handle success (e.g., reset the form or show a success message)
+                toast.success('Category deleted successfully');
+                // Reset fields
+                setCurrentCategory(null);
+                setTemp(prev => !prev)
+            } else {
+                // Handle errors
+                const errorData = await response.json(); // Parse the JSON response to get the error message
+                const errorMessage = errorData.error || currentCategory + ' category not deleted'; // Default to a generic error message
+
+                toast.error(errorMessage);
+            }
+            setTemp(prev => !prev)
+        }
+        else {
+            toast.error('Please select a category to delete');
+        }
+    }
+    useEffect(() => {
+        console.log("categories changed")
+    }, [categories])
+
     return (
         <div className="card bg-neutral text-neutral-content w-full">
             <div className="card-body items-center text-center justify-evenly">
@@ -15,10 +45,12 @@ const DeleteCategory = ({ categories }) => {
                     >
                         <option disabled value='dummy'>Select a Category to delete</option>
                         {categories.map((category) => (
-                            <option key={category._id} value={`${category._id}1212`}>{category.name}</option>
+                            <option key={category._id} value={`${category._id}`}>{category.name}</option>
                         ))}
                     </select>
-                    <button className='btn btn-primary'>Delete</button>
+                    <button className='btn btn-primary'
+                        onClick={() => handleDelete()}
+                    >Delete</button>
                 </div>
 
             </div>

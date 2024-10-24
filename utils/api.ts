@@ -60,6 +60,7 @@ export const deleteCategory = async (id: string) => {
     });
     return response;
   } catch (error) {
+    console.log(error)
     return error;
   }
 }

@@ -64,28 +64,4 @@ export async function POST(request) {
 }
 
 // Delete a category by ID
-export async function DELETE(request) {
-  await ConnectMongoDb();
 
-  const id = request.nextUrl.searchParams.get("id");
-  if (!id) {
-    return NextResponse.json({ message: "Invalid ID" }, { status: 400 });
-  }
-
-  try {
-    const result = await Categories.deleteOne({ _id: id });
-    if (result.deletedCount === 0) {
-      return NextResponse.json(
-        { message: "Category not found" },
-        { status: 404 }
-      );
-    }
-    return NextResponse.json({ message: "Category deleted" }, { status: 200 });
-  } catch (error) {
-    console.error("DELETE category error:", error);
-    return NextResponse.json(
-      { error: "Error deleting category" },
-      { status: 500 }
-    );
-  }
-}
