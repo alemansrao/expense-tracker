@@ -125,8 +125,8 @@ const Transaction = (props: Props) => {
   }, []);
 
   return (
-    <div className="h-dvh overflow-x-auto bg-black">
-      <Table aria-label="Example static collection table" selectionMode="single" color='primary'>
+    <div className="overflow-x-auto bg-black">
+      <Table aria-label="Example static collection table" selectionMode="single" color='primary' className='overflow-y-hidden'>
         <TableHeader>
           <TableColumn className='hidden'>Type</TableColumn>
           <TableColumn>Category</TableColumn>
