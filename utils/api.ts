@@ -78,3 +78,36 @@ export const updateLimit = async (limitData: any) => {
     return error;
   }
 }
+
+export const getWeeklyExpenses = async (username = "alemansrao") => {
+  try {
+    // Calculate the start and end dates of the current week
+    const today = new Date();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay()); // Set to Sunday
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const endOfWeek = new Date(today);
+    endOfWeek.setDate(today.getDate() + (6 - today.getDay())); // Set to Saturday
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    // Format dates to ISO strings for API compatibility
+    const startDateISO = startOfWeek.toISOString();
+    const endDateISO = endOfWeek.toISOString();
+    console.log(startDateISO, endDateISO);
+    // Fetch expense transactions from the API
+    const response = await fetch(
+      `/api/transaction?username=${username}&startDate=${startDateISO}&endDate=${endDateISO}`,
+      { headers: { "Access-Control-Allow-Origin": "*" } }
+    );
+
+    if (!response.ok) throw new Error("Failed to fetch weekly expenses");
+
+    const data = await response.json();
+    return data.transactions;
+  } catch (error) {
+    console.error("Error fetching weekly expenses:", error);
+    return [];
+  }
+};
+

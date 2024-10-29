@@ -11,45 +11,67 @@ type EChartsOption = echarts.ComposeOption<
   GridComponentOption | BarSeriesOption
 >;
 
-export default function BarChartComponent() {
-  useEffect(() => {
-    var chartDom = document.getElementById('barChart');
-    if (chartDom) {
-      var myChart = echarts.init(chartDom, 'dark');
-      var option: EChartsOption;
+type BarChartProps = {
+  expenses: Array<{ amount: number; date: string }>; // Adjust the type based on your transaction structure
+};
 
-      option = {
+export default function BarChartComponent({ expenses }: BarChartProps) {
+  useEffect(() => {
+    const chartDom = document.getElementById('barChart');
+    if (chartDom) {
+      // Dispose of any existing chart instance
+      let existingChart = echarts.getInstanceByDom(chartDom);
+      if (existingChart) {
+        existingChart.dispose();
+      }
+
+      const myChart = echarts.init(chartDom, 'dark');
+
+      // Prepare data for the chart
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const expenseData = Array(7).fill(0); // Initialize expense data for each day
+
+      expenses.forEach(transaction => {
+        const transactionDate = new Date(transaction.date);
+        const dayOfWeek = transactionDate.getDay(); // Get the day (0-Sun, 1-Mon, ..., 6-Sat)
+        if (dayOfWeek > 0) { // Adjusting since getDay() returns 0 for Sunday
+          expenseData[dayOfWeek - 1] += transaction.amount; // Add amount to corresponding day
+        }
+      });
+
+      const option: EChartsOption = {
+        title: {
+          text: 'Weekly Expenses',
+          // subtext: 'Living Expenses in Shenzhen'
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: days,
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
         },
         series: [
           {
-            data: [
-              120,
-              {
-                value: 200,
-                itemStyle: {
-                  color: '#a90000'
-                }
-              },
-              150,
-              80,
-              70,
-              110,
-              130
-            ],
-            type: 'bar'
-          }
-        ]
+            data: expenseData,
+            type: 'bar',
+          },
+        ],
       };
 
-      option && myChart.setOption(option);
+      myChart.setOption(option);
+
+      return () => {
+        myChart.dispose();
+      };
     }
-  }, []);
+  }, [expenses]); // Run effect again when expenses change
 
   return (
     <div id="barChart" style={{ width: '100%', height: '400px' }}></div>

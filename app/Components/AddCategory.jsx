@@ -1,9 +1,17 @@
 import { React, useEffect, useState } from 'react';
-import { ArrowRight } from 'react-feather';
+import { ArrowRight, ShoppingBag } from 'react-feather';
 import { createCategory } from '@/utils/api';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import Card from '@/app/Components/Card';
+import { Divider } from '@nextui-org/react';
+import { Input, Select, SelectItem, Button } from "@nextui-org/react";
+
 const AddCategory = (props) => {
+    const animals = [
+        { key: "Income", label: "Income" },
+        { key: "Expense", label: "Expense" },
+    ]
     const [type, setType] = useState('Expense');
     const [name, setName] = useState('');
     const [limit, setLimit] = useState('');
@@ -62,61 +70,29 @@ const AddCategory = (props) => {
         }
     };
 
+    const cardBody = () => (
+        <form onSubmit={handleSubmit} >
+            <Select
+                label="Select type of Category"
+                onChange={(e) => setType(e.target.value)}>
+                {animals.map((animal) => (
+                    <SelectItem key={animal.key} className="dark">
+                        {animal.label}
+                    </SelectItem>
+                ))}
+            </Select>
+            <div className='h-2'></div>
+            <Input type="text" label="Category name" value={name} onChange={(e) => setName(e.target.value)} />
+            <div className='h-2'></div>
+            <Input type="number" label="Expense Limit" isDisabled={type === 'Income'} step={1000} value={limit} onChange={(e) => setLimit(e.target.value)} />
+        </form>
+    )
+    const footer = () => (
+        <Button color="primary" className="" onClick={handleSubmit}> Add </Button>
+    )
 
     return (
-        <form onSubmit={handleSubmit} > {/* Add form tag */}
-            <div className="card bg-neutral text-neutral-content w-full">
-                <div className="card-body items-center text-center justify-evenly">
-                    <h2 className="card-title">{"Add Category"}</h2>
-
-                    <div className='flex flex-row gap-3 items-center w-full justify-around'>
-                        <select
-                            onChange={(e) => setType(e.target.value)}
-                            className='select w-full select-bordered max-w-sm md:max-w-md'
-                        >
-                            <option value="Expense">Expense</option>
-                            <option value="Income">Income</option>
-                        </select>
-                    </div>
-
-                    <div className='flex flex-row gap-3 items-center w-full justify-around'>
-                        <label className="input input-bordered flex items-center gap-2 w-full max-w-sm md:max-w-md">
-                            Name
-                            <input
-                                type="text"
-                                className="grow"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                        </label>
-                    </div>
-
-                    <div className='flex flex-row gap-3 items-center w-full justify-around'>
-                        <label className="input input-bordered flex items-center w-full max-w-sm md:max-w-md">
-                            Limit
-                            <input
-                                type="number"
-                                className="grow"
-                                value={limit}
-                                step={500}
-                                onChange={(e) => setLimit(e.target.value)}
-                                disabled={type === 'Income'} // Disable if type is Income
-                                onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
-                            />
-                            <ArrowRight
-                                size={24}
-                                
-                                className='hover:cursor-pointer bg-primary rounded-lg text-white'
-                                type="submit" // Change ArrowRight to submit the form
-                                onClick={handleSubmit}
-                            />
-                        </label>
-                    </div>
-
-                    <div className='card-actions justify-end'></div>
-                </div>
-            </div>
-        </form>
+        <Card title={"Add Category"} image={<ShoppingBag/>} body={cardBody()} footer={footer()}></Card>
     );
 }
 

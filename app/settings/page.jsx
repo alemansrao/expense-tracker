@@ -16,12 +16,13 @@ const Page = () => {
       setExpenseCategory(categories.filter((cat) => cat.type === 'Expense'));
       setAllCategories(categories);
     };
-
+console.log("testing")
     fetchCategories();
   }, [temp]); // Fetch categories when new category added
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-4 p-4">
+      
       <AddCategory setTemp={setTemp} />
       <LimitSetting expenseCategory={expenseCategory} />
       <DeleteCategory categories={allCategories} setTemp={setTemp}/>

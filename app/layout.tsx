@@ -1,7 +1,9 @@
 import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "./Components/Navbar"
 import './globals.css'
 import SessionProvider from "@/app/Components/SessionProvider";
+import { NextUIProvider } from "@nextui-org/react";
 import { getServerSession } from "next-auth";
 export const metadata = {
   title: 'Next.js',
@@ -16,15 +18,17 @@ export default async function RootLayout({
   const session = await getServerSession();
   return (
     <html lang="en">
-      <body>
+      <body className="dark text-foreground bg-background h-dvh">
         <SessionProvider session={session}>
-          <Navbar />
-          {children}
-          <ToastContainer
-            position="bottom-right"
-            autoClose={3000}
-            theme="dark" />
+          <NextUIProvider>
+              <Navbar />
+              {children}
+          </NextUIProvider>
         </SessionProvider>
+              <ToastContainer
+                position="bottom-right"
+                autoClose={3000}
+                theme="dark" />
       </body>
     </html>
   )

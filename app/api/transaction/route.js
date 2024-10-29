@@ -22,6 +22,23 @@ export async function POST(request) {
 
 export async function GET(request) {
   await ConnectMongoDb();
-  const transactions = await Transaction.find().sort({ date: -1 });
+  
+  const { searchParams } = new URL(request.url);
+  const username = searchParams.get("username");
+  const startDate = searchParams.get("startDate");
+  const endDate = searchParams.get("endDate");
+  
+  // Build the query object
+  const query = { username }; // Default filter by username
+  
+  if (startDate && endDate) {
+    query.date = {
+      $gte: new Date(startDate),
+      $lte: new Date(endDate),
+    };
+  }
+
+  const transactions = await Transaction.find(query).sort({ date: -1 });
+  
   return NextResponse.json({ transactions }, { status: 200 });
 }

@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getCategory } from '@/utils/api';
 import { validateTransaction } from '@/utils/validation';
 import { submitTransaction } from '@/utils/api';
+import { Button, Input } from "@nextui-org/react";
 type Props = {}
 
 type Category = {
@@ -153,6 +154,89 @@ const Page = (props: Props) => {
                 </form>
             </div>
         </div>
+        // <div className="flex w-fit flex-col gap-4 p-10 justify-center items-center m-auto">
+        //     <Input className='max-w-72' label="Transaction type" />
+        //     <Input className='max-w-72' label="Category" />
+        //     <Input className='max-w-72' label="Amount" />
+        //     <Input className='max-w-72' label="Date" />
+        //     <Input className='max-w-72' label="Description" />
+        //     <Button color='primary'>Submit</Button>
+
+        // </div>
+        // <div className='md:flex md:flex-row md:gap-5 md:h-[calc(100vh-4rem)] bg-black '>
+        //     <div className='md:w-1/2 justify-center items-center h-full hidden md:flex'>
+        //         <img src="https://cdn-icons-png.flaticon.com/512/7601/7601286.png" alt="" className='grayscale' />
+        //     </div>
+
+        //     <div className='md:w-1/2 flex justify-center items-center h-full'>
+        //         <form className='flex flex-col gap-3 form-control w-full'>
+        //             <div className='flex justify-center items-center gap-4'>
+        //                 <label className="form-control w-full max-w-xs md:max-w-md">
+        //                     <div className="label">
+        //                         <span className="label-text-alt">Transaction type</span>
+        //                     </div>
+        //                     <select className="select select-bordered w-full max-w-xs md:max-w-md"
+        //                         onChange={(e) => setType(e.target.value)} value={type}>
+        //                         <option value="Income">Income</option>
+        //                         <option value="Expense">Expense</option>
+        //                     </select>
+        //                 </label>
+        //             </div>
+
+        //             <div className='flex justify-center items-center gap-4'>
+        //                 <label className="form-control w-full max-w-xs md:max-w-md">
+        //                     <div className="label">
+        //                         <span className="label-text-alt">Amount</span>
+        //                     </div>
+        //                     <input type="number" name="amount" value={amount}
+        //                         onChange={(e) => setAmount(Number(e.target.value))}
+        //                         placeholder="Amount" className="input input-bordered w-full max-w-xs md:max-w-md" />
+        //                 </label>
+        //             </div>
+
+        //             <div className='flex justify-center items-center gap-4'>
+        //                 <label className="form-control w-full max-w-xs md:max-w-md">
+        //                     <div className="label">
+        //                         <span className="label-text-alt">Transaction Date</span>
+        //                     </div>
+        //                     <input type="date" name="date" id="transactionDate" value={date} className="input select-bordered w-full max-w-xs md:max-w-md"
+        //                         onChange={(e) => setDate(e.target.value)} />
+        //                 </label>
+        //             </div>
+
+        //             <div className='flex justify-center items-center gap-4'>
+        //                 <label className="form-control w-full max-w-xs md:max-w-md">
+        //                     <div className="label">
+        //                         <span className="label-text-alt">Category</span>
+        //                     </div>
+        //                     <select name="transactionCategory" id="category"
+        //                         value={category}
+        //                         onChange={(e) => setCategory(e.target.value)}
+        //                         className="select select-bordered w-full max-w-xs md:max-w-md">
+        //                         {allowedCategories.map((cat: any) => (
+        //                             <option value={cat.name} key={cat._id}>{cat.name}</option>
+        //                         ))}
+        //                     </select>
+        //                 </label>
+        //             </div>
+
+        //             <div className='flex justify-center items-center gap-4'>
+        //                 <label className="form-control w-full max-w-xs md:max-w-md">
+        //                     <div className="label">
+        //                         <span className="label-text-alt">Transaction Note</span>
+        //                     </div>
+        //                     <input name="description" type="text"
+        //                         maxLength={150}
+        //                         value={description}
+        //                         onChange={(e) => setDescription(e.target.value)}
+        //                         placeholder="Type here" className="input input-bordered w-full max-w-xs md:max-w-md" />
+        //                 </label>
+        //             </div>
+
+        //             <button className=' flex justify-center items-center self-center gap-4 btn btn-primary btn-outline md:max-w-md' type="submit" onClick={(e) => handleSubmit(e)}>Submit</button>
+        //         </form>
+        //     </div>
+        // </div>
     );
 };
 

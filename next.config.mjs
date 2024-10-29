@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-      domains: ['lh3.googleusercontent.com'], // Add your external domain here
-    },
-  };
-  
-  export default nextConfig;
-  
+  reactStrictMode: false, // Turn off strict mode here
+  images: {
+    domains: ["lh3.googleusercontent.com", "avatars.githubusercontent.com"], // Add your external domains here
+  },
+};
+
+export default nextConfig;

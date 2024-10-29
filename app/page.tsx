@@ -1,15 +1,17 @@
 "use client"
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import BarChart from './Components/BarChart';
 import RadarChartComponent from './Components/RadarChart';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getWeeklyExpenses } from "@/utils/api";
 
 type Props = {};
 
 const HomePage = (props: Props) => {
   const { data: session } = useSession();
+  const [weeklyExpenses, setWeeklyExpenses] = useState([]);
 
   const handleToast = () => {
     if (session) {
@@ -22,6 +24,16 @@ const HomePage = (props: Props) => {
       toast.error("You are not logged in.");
     }
   };
+
+  useEffect(() => {
+    const fetchWeeklyExpenses = async () => {
+      const expenses = await getWeeklyExpenses(); // Fetching expenses
+      console.log(expenses); // Log the fetched expenses
+      setWeeklyExpenses(expenses); // Set the state with the fetched expenses
+    };
+
+    fetchWeeklyExpenses();
+  }, []);
 
   return (
     <div>
@@ -44,7 +56,7 @@ const HomePage = (props: Props) => {
         </div>
         <div className='divider col-span-2 md:hidden'></div>
         <div className='border bg-slate-400 h-96 justify-center items-center flex md:row-span-4 col-span-2'>
-          <BarChart />
+          <BarChart expenses={weeklyExpenses} /> {/* Pass the expenses to BarChart */}
         </div>
       </div>
     </div>

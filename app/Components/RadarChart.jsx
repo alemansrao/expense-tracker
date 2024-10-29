@@ -12,12 +12,15 @@ const RadarChartComponent = () => {
 
   useEffect(() => {
     if (chartRef.current) {
+      // Dispose of the chart instance if it already exists
+      let existingChart = echarts.getInstanceByDom(chartRef.current);
+      if (existingChart) {
+        existingChart.dispose();
+      }
+
       const myChart = echarts.init(chartRef.current, 'dark');
       const option = {
-        
-        legend: {
-          data: ['Budget', 'Expense'],
-        },
+        legend: { data: ['Budget', 'Expense'] },
         radar: {
           indicator: [
             { name: 'Sales', max: 6500 },
@@ -33,20 +36,14 @@ const RadarChartComponent = () => {
             name: 'Budget vs spending',
             type: 'radar',
             data: [
-              {
-                value: [4200, 3000, 20000, 35000, 50000, 18000],
-                name: 'Budget',
-              },
-              {
-                value: [5000, 14000, 28000, 26000, 42000, 21000],
-                name: 'Expense',
-              },
+              { value: [4200, 3000, 20000, 35000, 50000, 18000], name: 'Budget' },
+              { value: [5000, 14000, 28000, 26000, 42000, 21000], name: 'Expense' },
             ],
           },
         ],
       };
 
-      option && myChart.setOption(option);
+      myChart.setOption(option);
 
       // Cleanup on unmount
       return () => {
@@ -54,6 +51,7 @@ const RadarChartComponent = () => {
       };
     }
   }, []);
+
 
   return <div ref={chartRef} style={{ width: '100%', height: '100%' }} />;
 };
