@@ -137,7 +137,7 @@ const Transaction = (props: Props) => {
         </TableHeader>
         <TableBody >
           {transactions.length === 0 ? tableLoadingRows() : transactions.map((transaction) => (
-            <TableRow key={transaction._id} className={transaction.type === 'Income' ? 'text-success' : 'text-danger'} onClick={() => { setEditTransaction(transaction); onEditModalOpen() }}>
+            <TableRow key={transaction._id} className={transaction.type === 'Income' ? 'text-success' : 'text-danger'} onTouchEnd={() => { setEditTransaction(transaction); onEditModalOpen(); }} onClick={() => { setEditTransaction(transaction); onEditModalOpen() }}>
               <TableCell className='hidden'>{transaction.type}</TableCell>
               <TableCell>{transaction.category_id}</TableCell>
               <TableCell>{transaction.amount}</TableCell>
@@ -170,10 +170,10 @@ const Transaction = (props: Props) => {
               <td>{new Date(transaction.date).toLocaleDateString()}</td>
               <td>{transaction.description}</td>
               <td>
-                <Button color="danger" onClick={() => deleteTransaction(transaction._id)}>
+                <Button variant="bordered" color="danger" onClick={() => deleteTransaction(transaction._id)}>
                   Delete
                 </Button>
-                <Button color="primary" onClick={() => {
+                <Button variant="bordered" color="primary" onClick={() => {
                   setEditTransaction(transaction);
                   onEditModalOpen();
                 }}>
@@ -235,10 +235,10 @@ const Transaction = (props: Props) => {
                 )}
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button variant="bordered" color="danger" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={() => {
+                <Button variant="bordered" color="primary" onPress={() => {
                   if (editTransaction) {
                     handleUpdate();
                   }

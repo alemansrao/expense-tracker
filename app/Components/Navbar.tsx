@@ -4,6 +4,7 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Navba
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { LogIn } from "react-feather";
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -23,9 +24,7 @@ export default function App() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <Link href="/">
-            <p className="font-bold text-inherit">Expense Tracker</p>
-          </Link>
+            <p className="font-bold text-inherit" onClick={() => handleMenuItemClick('/')}>Expense Tracker</p>
         </NavbarBrand>
       </NavbarContent>
 
@@ -50,12 +49,12 @@ export default function App() {
       <NavbarContent justify="end">
         <NavbarItem>
           {session ? (
-            <Button color="primary" variant="flat" onClick={() => signOut()}>
-              Sign Out
+            <Button variant="bordered" color="primary" onClick={() => signOut()}>
+              Sign Out <span className="block md:hidden"><LogIn/></span>
             </Button>
           ) : (
-            <Button color="primary" variant="flat" onClick={() => signIn()}>
-              Sign In
+            <Button variant="bordered" color="primary" onClick={() => signIn()}>
+              Sign In 
             </Button>
           )}
         </NavbarItem>
@@ -63,19 +62,29 @@ export default function App() {
 
       <NavbarMenu className="dark">
         <NavbarItem>
-          <Button className="w-full text-foreground hover:text-primary" onClick={() => handleMenuItemClick('/transactions')}>
+          {/* <Button variant="bordered" className="w-full text-foreground hover:text-primary" onClick={() => handleMenuItemClick('/transactions')}>
             All Transactions
-          </Button>
+          </Button> */}
+          <h1 onClick={() => handleMenuItemClick('/transactions')} className="w-full text-foreground hover:text-primary">
+            All Transactions
+          </h1>
         </NavbarItem>
         <NavbarItem>
-          <Button className="w-full text-foreground hover:text-primary" onClick={() => handleMenuItemClick('/transactions/new')}>
+          {/* <Button variant="bordered" className="w-full text-foreground hover:text-primary" onClick={() => handleMenuItemClick('/transactions/new')}>
             New Transaction
-          </Button>
+          </Button> */}
+
+          <h1 onClick={() => handleMenuItemClick('/transactions/new')} className="w-full text-foreground hover:text-primary">
+            New Transactions
+          </h1>
         </NavbarItem>
         <NavbarItem>
-          <Button className="w-full text-foreground hover:text-primary" onClick={() => handleMenuItemClick('/settings')}>
+          {/* <Button variant="bordered" className="w-full text-foreground hover:text-primary" onClick={() => handleMenuItemClick('/settings')}>
             Settings
-          </Button>
+          </Button> */}
+          <h1 onClick={() => handleMenuItemClick('/settings')} className="w-full text-foreground hover:text-primary">
+           Settings
+          </h1>
         </NavbarItem>
       </NavbarMenu>
     </Navbar>

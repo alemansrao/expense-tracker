@@ -14,7 +14,7 @@ export default function App({ image, title, body, footer }) {
                     {/* <p className="text-small text-default-500">nextui.org</p> */}
                 </div>
                 <div className="ml-auto justify-end md:hidden">
-                    {footer || <Button color="primary" className="md:hidden"> Error </Button>}
+                    {footer || <Button variant="bordered" color="primary" className="md:hidden"> Error </Button>}
                 </div>
             </CardHeader>
             <Divider />
@@ -26,7 +26,7 @@ export default function App({ image, title, body, footer }) {
             </CardBody>
             <Divider className="hidden md:block"></Divider>
             <CardFooter className="justify-center hidden md:flex">
-                {footer || <Button color="primary" className="hidden md:inline-flex"> Error </Button>}
+                {footer || <Button variant="bordered" color="primary" className="hidden md:inline-flex"> Error </Button>}
             </CardFooter>
         </Card>
     );

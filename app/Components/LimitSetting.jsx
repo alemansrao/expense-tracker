@@ -106,7 +106,7 @@ const LimitSetting = ({ expenseCategory }) => {
 
   // Component footer with update button
   const footer = () => (
-    <Button color='primary' onClick={handleUpdateClick} ref={updateButtonRef}>
+    <Button variant="bordered" color='primary' onClick={handleUpdateClick} ref={updateButtonRef}>
       Update
     </Button>
   );

@@ -160,7 +160,7 @@ const Page = (props: Props) => {
         //     <Input className='max-w-72' label="Amount" />
         //     <Input className='max-w-72' label="Date" />
         //     <Input className='max-w-72' label="Description" />
-        //     <Button color='primary'>Submit</Button>
+        //     <Button variant="bordered" color='primary'>Submit</Button>
 
         // </div>
         // <div className='md:flex md:flex-row md:gap-5 md:h-[calc(100vh-4rem)] bg-black '>

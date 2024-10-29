@@ -53,7 +53,7 @@ const DeleteCategory = ({ categories, setTemp }) => {
 
 
     const footer = () => (
-        <Button onClick={handleDelete} color='primary'>Delete</Button>
+        <Button variant="bordered" onClick={handleDelete} color='primary'>Delete</Button>
     )
 
     return (
