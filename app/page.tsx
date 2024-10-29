@@ -38,7 +38,7 @@ const HomePage = (props: Props) => {
   return (
     <div>
       {session &&
-        <div className='text-2xl text-center'>
+        <div className='text-2xl text-center py-3 px-2'>
           Hi <span className='text-primary'>{session?.user?.name}</span>, Welcome to Expense Tracker
         </div>
       }

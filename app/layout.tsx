@@ -18,7 +18,7 @@ export default async function RootLayout({
   const session = await getServerSession();
   return (
     <html lang="en">
-      <body className="dark text-foreground bg-background h-dvh">
+      <body className="dark text-foreground bg-background min-h-dvh h-fit">
         <SessionProvider session={session}>
           <NextUIProvider>
               <Navbar />
