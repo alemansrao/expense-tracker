@@ -36,9 +36,10 @@ export async function GET(request) {
       $gte: new Date(startDate),
       $lte: new Date(endDate),
     };
+    query.type = "Expense";
   }
 
-  const transactions = await Transaction.find(query).sort({ date: -1 });
+  const transactions = await Transaction.find(query).sort({ date: -1, createdAt: -1 });
   
   return NextResponse.json({ transactions }, { status: 200 });
 }

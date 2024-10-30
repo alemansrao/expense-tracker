@@ -34,7 +34,8 @@ const Transaction = (props: Props) => {
     setTransactions(data.transactions);
   };
 
-  const deleteTransaction = async (id: string) => {
+  const deleteTransaction = async (e : React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
+    e.stopPropagation()
     const confirmed = true; // Replace with actual confirmation logic if needed.
     if (!confirmed) return;
 
@@ -88,32 +89,32 @@ const Transaction = (props: Props) => {
       <TableRow key={item}>
         <TableCell className='hidden w-1/6'>
           <div>
-            <Skeleton className="h-3 w-1/5 rounded-lg"/>
+            <Skeleton className="h-3 w-1/5 rounded-lg" />
           </div>
         </TableCell>
         <TableCell>
           <div>
-            <Skeleton className="h-3 w-full rounded-lg"/>
+            <Skeleton className="h-3 w-full rounded-lg" />
           </div>
         </TableCell>
         <TableCell>
           <div>
-            <Skeleton className="h-3 w-full rounded-lg"/>
+            <Skeleton className="h-3 w-full rounded-lg" />
           </div>
         </TableCell>
         <TableCell>
           <div>
-            <Skeleton className="h-3 w-full rounded-lg"/>
+            <Skeleton className="h-3 w-full rounded-lg" />
           </div>
         </TableCell>
         <TableCell>
           <div>
-            <Skeleton className="h-3 w-full rounded-lg"/>
+            <Skeleton className="h-3 w-full rounded-lg" />
           </div>
         </TableCell>
         <TableCell>
           <div>
-            <Skeleton className="h-3 w-full rounded-lg"/>
+            <Skeleton className="h-3 w-full rounded-lg" />
           </div>
         </TableCell>
       </TableRow>
@@ -144,7 +145,7 @@ const Transaction = (props: Props) => {
               <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
               <TableCell>{transaction.description}</TableCell>
               <TableCell>
-                <button >Delete</button>
+                <button onClick={(e) => deleteTransaction(e, transaction._id)}>Delete</button>
               </TableCell>
             </TableRow>
           ))}
