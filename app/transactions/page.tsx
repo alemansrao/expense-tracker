@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Edit2, Eye, Trash2 } from 'react-feather';
 import { toast } from 'react-toastify';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Textarea,Input,Select,SelectItem } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Textarea, Input, Select, SelectItem } from "@nextui-org/react";
 import { Skeleton } from "@nextui-org/skeleton";
+import { getCategory } from '@/utils/api';
 
 type Transaction = {
   _id: string;
@@ -17,7 +18,13 @@ type Transaction = {
   createdAt: string;
   modifiedAt: string;
 };
-const Transaction = () => {
+type Category = {
+  name: string;
+  type: string; // Adjust this based on your data structure
+  username: string;
+  _id: string;
+};
+const App = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editTransaction, setEditTransaction] = useState<Transaction | null>(null);
   const [originalTransaction, setOriginalTransaction] = useState<Transaction | null>(null);
@@ -25,6 +32,7 @@ const Transaction = () => {
   const { isOpen: isEditModalOpen, onOpen: onEditModalOpen, onClose: onEditModalClose } = useDisclosure();
   const username = 'alemansrao';
   const [emptyTransactions, setEmptyTransactions] = useState(false);
+  const [allowedCategories, setAllowedCategories] = useState<Category[]>([]); // Initialize as an empty array // Store filtered categories based on type
 
 
   const getTransactions = async () => {
@@ -63,7 +71,7 @@ const Transaction = () => {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to delete transaction");
       }
-
+      console.log('Transaction deleted successfully');
       getTransactions(); // Refresh transactions after successful deletion
     } catch (error) {
       console.error(error);
@@ -101,7 +109,8 @@ const Transaction = () => {
     if (editTransaction) {
       const updatedTransaction = { ...editTransaction, [field]: value };
       setEditTransaction(updatedTransaction);
-
+      // console.log("updated transaction" + JSON.stringify(updatedTransaction));
+      // console.log("Original transaction" + JSON.stringify(originalTransaction));
       // Check if there's any difference between original and edited transaction
       const hasChanges = JSON.stringify(updatedTransaction) !== JSON.stringify(originalTransaction);
       setIsSaveEnabled(hasChanges);
@@ -109,12 +118,21 @@ const Transaction = () => {
   };
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      const categories = await getCategory();
+      setAllowedCategories(categories.filter((cat: any) => cat.type === editTransaction?.type));
+    };
+
+    fetchCategories();
+  }, [editTransaction?.type]);
+
+  useEffect(() => {
     getTransactions();
   }, []);
 
-  const dummy = [1, 2, 3, 4];
+  const tempArray = [1, 2, 3, 4];
   const tableLoadingRows = () => (
-    dummy.map((item) => (
+    tempArray.map((item) => (
       <TableRow key={item}>
         <TableCell className={`hidden lg:table-cell`}>
           <div>
@@ -186,19 +204,19 @@ const Transaction = () => {
       <Modal isOpen={isEditModalOpen} onClose={onEditModalClose}>
         <ModalContent>
           <ModalHeader>Edit Transaction</ModalHeader>
-          <ModalBody>
+          <ModalBody className=''>
             {editTransaction && (
-              <div>
+              <div className="flex flex-col gap-2">
                 <Select
-                            value={editTransaction.type}
-                            label="Transaction type"
-                            selectedKeys={[editTransaction.type]}
-                            onChange={(e: any) => handleFieldChange("type", e.target.value)}
-                            className="w-full"
-                        >
-                            <SelectItem key={"Expense"} value="Expense">Expense</SelectItem>
-                            <SelectItem key={"Income"} value="Income">Income</SelectItem>
-                        </Select>
+                  value={editTransaction.type}
+                  label="Transaction type"
+                  selectedKeys={[editTransaction.type]}
+                  onChange={(e: any) => handleFieldChange("type", e.target.value)}
+                  className="w-full"
+                >
+                  <SelectItem key={"Expense"} value="Expense">Expense</SelectItem>
+                  <SelectItem key={"Income"} value="Income">Income</SelectItem>
+                </Select>
                 {/* <label>Amount:</label>
                 <input
                   type="number"
@@ -213,20 +231,42 @@ const Transaction = () => {
                   onChange={(e) => handleFieldChange("amount", Number(e.target.value))}
                   className="w-full"
                 />
-                <label>Category:</label>
-                <input
+                {/* <label>Category:</label> */}
+                {/* <input
                   type="text"
                   value={editTransaction.category_id}
                   onChange={(e) => handleFieldChange("category_id", e.target.value)}
                   className="w-full"
-                />
-                <label>Date:</label>
+                /> */}
+
+                <Select
+                  value={editTransaction.category_id}
+                  label="Category"
+                  selectedKeys={[editTransaction.category_id]}
+                  onChange={(e: any) => handleFieldChange("category_id", e.target.value)}
+                  className="w-full"
+                >
+                  {allowedCategories.map((category) => (
+                    <SelectItem key={category.name} value={category.name}>{category.name}</SelectItem>
+                  ))}
+                </Select>
+
+
+                {/* <label>Date:</label>
                 <input
                   type="date"
                   value={editTransaction.date.split('T')[0]}
                   onChange={(e) => handleFieldChange("date", e.target.value)}
                   className="w-full"
-                />
+                /> */}
+
+                <Input
+                  className='w-full md:max-w-md'
+                  label="Transaction Date"
+                  type='date'
+                  value={editTransaction.date.split('T')[0]}
+                  onChange={(e) => handleFieldChange("date", e.target.value)} />
+
                 {/* <label>Description:</label> */}
                 {/* <input
                   type="text"
@@ -235,8 +275,8 @@ const Transaction = () => {
                   className="w-full"
                 /> */}
                 <Textarea
-                type='text'
-                value={editTransaction.description}
+                  type='text'
+                  value={editTransaction.description}
                   label="Description"
                   onChange={(e) => handleFieldChange("description", e.target.value)}
                   placeholder="Enter your description"
@@ -246,10 +286,15 @@ const Transaction = () => {
             )}
           </ModalBody>
           <ModalFooter>
-            <Button variant="bordered" color="danger" onPress={onEditModalClose}>
+            <Button variant="bordered" color="danger" onPress={onEditModalClose} >
               Close
             </Button>
-            <Button variant="bordered" color="primary" onPress={handleUpdate} isDisabled={!isSaveEnabled}>
+            <Button
+              className={`transition-all duration-400 ${isSaveEnabled ? 'animate-slideUpAndFade inline-flex' : 'hidden animate-appearance-out'}`}
+              variant={isSaveEnabled ? "bordered" : "faded"}
+              color="primary"
+              onPress={handleUpdate}
+              isDisabled={!isSaveEnabled}>
               Save Changes
             </Button>
           </ModalFooter>
@@ -259,4 +304,4 @@ const Transaction = () => {
   );
 };
 
-export default Transaction;
+export default App;

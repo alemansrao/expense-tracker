@@ -31,7 +31,6 @@ const HomePage = (props: Props) => {
       // console.log(expenses); // Log the fetched expenses
       setWeeklyExpenses(expenses); // Set the state with the fetched expenses
     };
-
     fetchWeeklyExpenses();
   }, []);
 
@@ -42,19 +41,6 @@ const HomePage = (props: Props) => {
           Hi <span className='text-primary'>{session?.user?.name}</span>, Welcome to Expense Tracker
         </div>
       }
-      {/* {session ? (
-        <div>
-          <h1 className="text-white">Welcome {session.user?.name}</h1>
-          <button className='btn btn-primary' onClick={() => signOut()}>Sign out</button>
-          <button className='btn btn-primary' onClick={handleToast}>Show Info</button>
-        </div>
-      ) : (
-        <div>
-          <button className='btn btn-primary' onClick={() => signIn()}>Sign in</button>
-          <button className='btn btn-primary' onClick={handleToast}>Show Info</button>
-        </div>
-      )} */}
-
       <div className="grid grid-cols-2 md:grid-cols-4 text-white gap-2 p-3">
         <div className='border bg-slate-400 h-96 justify-center items-center flex md:col-span-2 md:row-span-4 col-span-2'>
           <RadarChartComponent />

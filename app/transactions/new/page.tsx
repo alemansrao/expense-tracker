@@ -5,7 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { getCategory } from '@/utils/api';
 import { validateTransaction } from '@/utils/validation';
 import { submitTransaction } from '@/utils/api';
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem, Textarea, DateInput, DatePicker } from "@nextui-org/react";
+import { DateValue, now, getLocalTimeZone } from "@internationalized/date";
+import { useDateFormatter } from "@react-aria/i18n";
 type Props = {}
 
 type Category = {
@@ -14,13 +16,20 @@ type Category = {
     username: string;
     _id: string;
 };
-
+const today = now('UTC');
 const notes = ['Monthly spend', 'Savings', 'Credit Card', 'Debit Card', 'Other'];
 
 const Page = (props: Props) => {
+    console.log(today)
     const [type, setType] = useState("Expense");
     const [amount, setAmount] = useState(0);
     const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+    // const [date, setDate] = useState<DateValue>(now(getLocalTimeZone()));
+    const formatter = useDateFormatter({
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+    });
     const [category, setCategory] = useState("");
     const [username, setUsername] = useState("alemansrao");
     const [description, setDescription] = useState(notes[Math.floor(Math.random() * notes.length)]);
@@ -45,7 +54,7 @@ const Page = (props: Props) => {
         if (response && response.status === 201) {
             toast.success('Transaction recorded', { position: "bottom-right", autoClose: 3000, theme: "dark" });
             setAmount(0);
-            setDate(new Date().toISOString().split("T")[0]);
+            // setDate(new Date().toISOString().split("T")[0]);
             setDescription("");
         } else {
             toast.error('Failed to record transaction', { position: "bottom-right", autoClose: 3000, theme: "dark" });
@@ -104,33 +113,11 @@ const Page = (props: Props) => {
                     </div>
 
                     <div className='flex justify-center items-center gap-4'>
-                        <label className="form-control w-full max-w-xs md:max-w-md">
-                            <div className="label">
-                                <span className="label-text-alt">Transaction Date</span>
-                            </div>
-                            <input type="date" name="date" id="transactionDate" value={date} className="input select-bordered w-full max-w-xs md:max-w-md"
-                                onChange={(e) => setDate(e.target.value)} />
-                        </label>
+                        <Input className='w-full max-w-xs md:max-w-md' label="Transaction Date" type='date' value={date} onChange={(e) => setDate(e.target.value)} />
                     </div>
 
 
                     <div className='flex justify-center items-center gap-4'>
-                        {/*<label className="form-control w-full max-w-xs md:max-w-md">
-                            <div className="label">
-                                <span className="label-text-alt">Category</span>
-                            </div>
-                            <select name="transactionCategory" id="category"
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value)}
-                                className="select select-bordered w-full max-w-xs md:max-w-md">
-                                {allowedCategories.map((cat: any) => (
-                                    <option value={cat.name} key={cat._id}>{cat.name}</option>
-                                ))}
-                            </select>
-                        </label> */}
-
-
-
                         <Select
                             value={type}
                             label="Transaction category"
@@ -145,16 +132,14 @@ const Page = (props: Props) => {
                     </div>
 
                     <div className='flex justify-center items-center gap-4'>
-                        <label className="form-control w-full max-w-xs md:max-w-md">
-                            <div className="label">
-                                <span className="label-text-alt">Transaction Note</span>
-                            </div>
-                            <input name="description" type="text"
-                                maxLength={150}
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                placeholder="Type here" className="input input-bordered w-full max-w-xs md:max-w-md" />
-                        </label>
+                        <Textarea
+                            maxLength={150}
+
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Enter description"
+                            className="textarea textarea-bordered w-full max-w-xs md:max-w-md"
+                        />
                     </div>
 
                     <button className=' flex justify-center items-center self-center gap-4 btn btn-primary btn-outline md:max-w-md' type="submit" onClick={(e) => handleSubmit(e)}>Submit</button>

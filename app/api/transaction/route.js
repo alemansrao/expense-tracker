@@ -4,9 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   const { type,amount,date,category,username,description } = await request.json();
-  console.time("dbConnection");
   await ConnectMongoDb();
-  console.timeEnd("dbConnection");
+  
+  // const isoString = new Date(`${date.year}-${date.month}-${date.day}`).toISOString();
   // Make sure the schema fields match
   await Transaction.create({
     username,

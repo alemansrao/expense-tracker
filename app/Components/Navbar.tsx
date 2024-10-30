@@ -24,7 +24,7 @@ export default function App() {
           className="sm:hidden"
         />
         <NavbarBrand>
-            <p className="font-bold text-inherit" onClick={() => handleMenuItemClick('/')}>Expense Tracker</p>
+            <p className="font-bold text-inherit cursor-pointer" onClick={() => handleMenuItemClick('/')}>Expense Tracker</p>
         </NavbarBrand>
       </NavbarContent>
 
