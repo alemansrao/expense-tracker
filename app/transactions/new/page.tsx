@@ -36,13 +36,6 @@ const Page = (props: Props) => {
 
     const [allCategories, setAllCategories] = useState([]); // Store all categories (both Income and Expense)
     const [allowedCategories, setAllowedCategories] = useState<Category[]>([]); // Initialize as an empty array // Store filtered categories based on type
-    if (!session)
-        return <div className='w-full h-screen flex flex-col justify-center items-center'>
-            <p>You are not logged in</p>
-            <Button color='primary' onClick={() => signIn()} className='m-4'>
-                Sign in
-            </Button>
-        </div>;
 
     const validateData = () => {
         return type && amount > 0 && date && category && description;
@@ -79,7 +72,7 @@ const Page = (props: Props) => {
         };
 
         fetchCategories();
-    }, []);
+    }, [type]);
 
     useEffect(() => {
         if (allowedCategories.length > 0) {
@@ -93,6 +86,14 @@ const Page = (props: Props) => {
         // Filter categories based on type without making an API call
         setAllowedCategories(allCategories.filter((cat: any) => cat.type === type));
     }, [type, allCategories]);
+
+    if (!session)
+        return <div className='w-full h-screen flex flex-col justify-center items-center'>
+            <p>You are not logged in</p>
+            <Button color='primary' onClick={() => signIn()} className='m-4'>
+                Sign in
+            </Button>
+        </div>;
 
     return (
         <div className='md:flex md:flex-row md:gap-5 md:h-[calc(100vh-4rem)] bg-black '>

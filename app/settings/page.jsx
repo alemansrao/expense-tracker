@@ -12,13 +12,6 @@ const Page = () => {
   const [temp, setTemp] = useState(true)
   const [allCategories, setAllCategories] = useState([]);
   const [expenseCategory, setExpenseCategory] = useState([]);
-  if (!session)
-    return <div className='w-full h-screen flex flex-col justify-center items-center'>
-      <p>You are not logged in</p>
-      <Button color='primary' onClick={() => signIn()} className='m-4'>
-        Sign in
-      </Button>
-    </div>;
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -29,6 +22,14 @@ const Page = () => {
     console.log("testing")
     fetchCategories();
   }, [temp]); // Fetch categories when new category added
+
+  if (!session)
+    return <div className='w-full h-screen flex flex-col justify-center items-center'>
+      <p>You are not logged in</p>
+      <Button color='primary' onClick={() => signIn()} className='m-4'>
+        Sign in
+      </Button>
+    </div>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-4 p-4">

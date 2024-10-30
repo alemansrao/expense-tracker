@@ -35,14 +35,6 @@ const App = () => {
   const username = 'alemansrao';
   const [emptyTransactions, setEmptyTransactions] = useState(false);
   const [allowedCategories, setAllowedCategories] = useState<Category[]>([]); // Initialize as an empty array // Store filtered categories based on type
-  if (!session)
-    return <div className='w-full h-screen flex flex-col justify-center items-center'>
-      <p>You are not logged in</p>
-      <Button color='primary' onClick={() => signIn()} className='m-4'>
-        Sign in
-      </Button>
-    </div>;
-
 
   const getTransactions = async () => {
     const response = await fetch(`/api/transaction?username=${username}`);
@@ -179,6 +171,14 @@ const App = () => {
       </TableRow>
     ))
   );
+
+  if (!session)
+    return <div className='w-full h-screen flex flex-col justify-center items-center'>
+      <p>You are not logged in</p>
+      <Button color='primary' onClick={() => signIn()} className='m-4'>
+        Sign in
+      </Button>
+    </div>;
 
   return (
     <div className="overflow-x-auto bg-black">

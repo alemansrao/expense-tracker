@@ -42,12 +42,15 @@ export default function BarChartComponent({ expenses }: BarChartProps) {
       const option: EChartsOption = {
         title: {
           text: 'Weekly Expenses',
+          left: '5%',
+          top:"5%"
           // subtext: 'Living Expenses in Shenzhen'
         },
         grid: {
           left: '3%',
           right: '4%',
           bottom: '3%',
+          top: '15%',
           containLabel: true
         },
         xAxis: {
@@ -74,6 +77,6 @@ export default function BarChartComponent({ expenses }: BarChartProps) {
   }, [expenses]); // Run effect again when expenses change
 
   return (
-    <div id="barChart" style={{ width: '100%', height: '400px' }}></div>
+    <div id="barChart" style={{ width: '100%', height: '100%' }}></div>
   );
 }

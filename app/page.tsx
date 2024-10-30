@@ -13,25 +13,6 @@ type Props = {};
 const HomePage = (props: Props) => {
   const { data: session } = useSession();
   const [weeklyExpenses, setWeeklyExpenses] = useState([]);
-  if (!session)
-    return <div className='w-full h-screen flex flex-col justify-center items-center'>
-      <p>You are not logged in</p>
-      <Button color='primary' onClick={() => signIn()} className='m-4'>
-        Sign in
-      </Button>
-    </div>;
-
-  const handleToast = () => {
-    if (session) {
-      const { user } = session;
-      const userInfo = user?.image ? `${user.name} (${user.email}) - Image Available`
-        : `${user?.name} (${user?.email}) - No Image`;
-
-      toast.success(userInfo);
-    } else {
-      toast.error("You are not logged in.");
-    }
-  };
 
   useEffect(() => {
     const fetchWeeklyExpenses = async () => {
@@ -41,6 +22,14 @@ const HomePage = (props: Props) => {
     };
     fetchWeeklyExpenses();
   }, []);
+
+  if (!session)
+    return <div className='w-full h-screen flex flex-col justify-center items-center'>
+      <p>You are not logged in</p>
+      <Button color='primary' onClick={() => signIn()} className='m-4'>
+        Sign in
+      </Button>
+    </div>;
 
   return (
     <div>

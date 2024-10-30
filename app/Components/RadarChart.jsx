@@ -4,6 +4,7 @@ import * as echarts from 'echarts/core';
 import { TitleComponent, LegendComponent } from 'echarts/components';
 import { RadarChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
+import { title } from 'process';
 
 echarts.use([TitleComponent, LegendComponent, RadarChart, CanvasRenderer]);
 
@@ -20,15 +21,32 @@ const RadarChartComponent = () => {
 
       const myChart = echarts.init(chartRef.current, 'dark');
       const option = {
-        legend: { data: ['Budget', 'Expense'] },
+        title: {
+          text: 'Budget vs spending',
+          left: '5%',
+          top: "2%"
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          top: '5%',
+          containLabel: true
+        },
+        legend: {
+          data: ['Budget', 'Expense'],
+          right: "5%",
+          bottom: "2%"
+        },
         radar: {
+          nameGap: 4,
           indicator: [
-            { name: 'Sales', max: 6500 },
-            { name: 'Administration', max: 16000 },
-            { name: 'Information Technology', max: 30000 },
-            { name: 'Customer Support', max: 38000 },
-            { name: 'Development', max: 52000 },
-            { name: 'Marketing', max: 25000 },
+            { name: 'Groceries', max: 6500 },
+            { name: 'Rent', max: 16000 },
+            { name: 'Travel', max: 30000 },
+            { name: 'Investment', max: 38000 },
+            { name: 'Food', max: 52000 },
+            { name: 'Entertainment', max: 25000 },
           ],
         },
         series: [
