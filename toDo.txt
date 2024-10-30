@@ -1,0 +1,20 @@
+Category-wise Expense Breakdown (Pie Chart):
+Show a pie or donut chart that represents how much is being spent per category (e.g., Rent, Travel, Groceries) within a selected time frame.
+
+Top 5 Expense Categories (Bar Chart):
+Display a bar chart highlighting the top 5 categories where the user spends the most, helping them quickly identify major spending areas.
+
+Monthly Expense Trends (Line Chart):
+A line chart showing monthly expense trends over the past 6–12 months to help users see their spending patterns over time.
+
+Budget Utilization per Category (Bar or Progress Chart):
+Use each category's limit from the category collection to show how much of each budget has been used (e.g., 60% of Travel budget).
+
+Income vs. Expense Cumulative Growth (Line Chart):
+A cumulative growth chart showing the user’s income and expense growth side by side, illustrating trends over a longer period (e.g., quarter or year).
+
+Average Daily Spending (Metric):
+Display the average daily spending for the current month or week, giving users a sense of how much they spend per day.
+
+Expense by Day of the Week (Heatmap):
+Show a heatmap or a stacked bar to indicate which days the user spends the most.

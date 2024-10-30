@@ -10,13 +10,13 @@ export async function DELETE(request, { params }) {
 
 export async function PUT(request, { params }) {
   const { id } = params;
-  
+
   try {
     const temp = await request.json();
     console.log("Request body (update data):", temp);
 
     await ConnectMongoDb();
-    
+
     const transaction = await Transaction.findById(id);
     if (!transaction) {
       return NextResponse.json(
@@ -42,7 +42,10 @@ export async function PUT(request, { params }) {
     }
 
     console.log("Updated transaction:", updatedTransaction);
-    return NextResponse.json({ message: "Transaction updated" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Transaction updated" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error(error);
     return NextResponse.json(

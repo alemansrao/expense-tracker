@@ -1,13 +1,10 @@
-"use client";
+"use client"
 import React, { useEffect, useState } from 'react';
-import { Edit2, Trash2 } from 'react-feather';
+import { Edit2, Eye, Trash2 } from 'react-feather';
 import { toast } from 'react-toastify';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Textarea,Input,Select,SelectItem } from "@nextui-org/react";
 import { Skeleton } from "@nextui-org/skeleton";
-
-
-type Props = {};
 
 type Transaction = {
   _id: string;
@@ -20,21 +17,30 @@ type Transaction = {
   createdAt: string;
   modifiedAt: string;
 };
-
-const Transaction = (props: Props) => {
+const Transaction = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editTransaction, setEditTransaction] = useState<Transaction | null>(null);
-  const { isOpen: isEditModalOpen, onOpen: onEditModalOpen, onClose: onEditModalClose, onOpenChange: onEditModalChange } = useDisclosure();
+  const [originalTransaction, setOriginalTransaction] = useState<Transaction | null>(null);
+  const [isSaveEnabled, setIsSaveEnabled] = useState(false);
+  const { isOpen: isEditModalOpen, onOpen: onEditModalOpen, onClose: onEditModalClose } = useDisclosure();
   const username = 'alemansrao';
+  const [emptyTransactions, setEmptyTransactions] = useState(false);
+
 
   const getTransactions = async () => {
     const response = await fetch(`/api/transaction?username=${username}`);
     const data = await response.json();
-    console.log(data);
+    if (data.transactions.length === 0) {
+      console.log("No transactions found");
+      setEmptyTransactions(true);
+    }
+    else {
+      setEmptyTransactions(false);
+    }
     setTransactions(data.transactions);
   };
 
-  const deleteTransaction = async (e : React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
+  const deleteTransaction = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
     e.stopPropagation()
     const confirmed = true; // Replace with actual confirmation logic if needed.
     if (!confirmed) return;
@@ -64,192 +70,189 @@ const Transaction = (props: Props) => {
     }
   };
 
+
+  const handleOpenEditModal = (transaction: Transaction) => {
+    setEditTransaction(transaction);
+    setOriginalTransaction(transaction);
+    onEditModalOpen();
+  };
+
   const handleUpdate = async () => {
-    const response = await fetch(`/api/transaction/${editTransaction?._id}`, {
+    if (!editTransaction || !isSaveEnabled) return;
+
+    const response = await fetch(`/api/transaction/${editTransaction._id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(editTransaction),
     });
 
     const data = await response.json();
 
     if (response.ok) {
-      toast.success(data.message); // Show success toast
-      getTransactions(); // Refresh the transaction list
-      onEditModalClose(); // Close the modal
+      toast.success(data.message);
+      getTransactions();
+      onEditModalClose();
     } else {
-      toast.error(data.message); // Show error toast
+      toast.error(data.message);
     }
   };
-  const dummy = [1, 2, 3, 4];
-  const tableLoadingRows = () => (
-    dummy.map((item) => (
-      <TableRow key={item}>
-        <TableCell className='hidden w-1/6'>
-          <div>
-            <Skeleton className="h-3 w-1/5 rounded-lg" />
-          </div>
-        </TableCell>
-        <TableCell>
-          <div>
-            <Skeleton className="h-3 w-full rounded-lg" />
-          </div>
-        </TableCell>
-        <TableCell>
-          <div>
-            <Skeleton className="h-3 w-full rounded-lg" />
-          </div>
-        </TableCell>
-        <TableCell>
-          <div>
-            <Skeleton className="h-3 w-full rounded-lg" />
-          </div>
-        </TableCell>
-        <TableCell>
-          <div>
-            <Skeleton className="h-3 w-full rounded-lg" />
-          </div>
-        </TableCell>
-        <TableCell>
-          <div>
-            <Skeleton className="h-3 w-full rounded-lg" />
-          </div>
-        </TableCell>
-      </TableRow>
-    ))
-  );
+
+  const handleFieldChange = (field: keyof Transaction, value: string | number) => {
+    if (editTransaction) {
+      const updatedTransaction = { ...editTransaction, [field]: value };
+      setEditTransaction(updatedTransaction);
+
+      // Check if there's any difference between original and edited transaction
+      const hasChanges = JSON.stringify(updatedTransaction) !== JSON.stringify(originalTransaction);
+      setIsSaveEnabled(hasChanges);
+    }
+  };
 
   useEffect(() => {
     getTransactions();
   }, []);
 
+  const dummy = [1, 2, 3, 4];
+  const tableLoadingRows = () => (
+    dummy.map((item) => (
+      <TableRow key={item}>
+        <TableCell className={`hidden lg:table-cell`}>
+          <div>
+            <Skeleton className="h-3 w-14 rounded-lg" />
+          </div>
+        </TableCell>
+        <TableCell className=''>
+          <div>
+            <Skeleton className="h-3 w-14 rounded-lg" />
+          </div>
+        </TableCell>
+        <TableCell className=''>
+          <div>
+            <Skeleton className="h-3 w-14 rounded-lg" />
+          </div>
+        </TableCell>
+        <TableCell className=''>
+          <div>
+            <Skeleton className="h-3 w-20 rounded-lg" />
+          </div>
+        </TableCell>
+        <TableCell className='hidden md:table-cell w-full'>
+          <div>
+            <Skeleton className="h-3 w-3/4 rounded-lg" />
+          </div>
+        </TableCell>
+        <TableCell className='flex flex-row gap-2 items-center'>
+          {/* <Tooltip content="Click to View or Edit trasaction">
+            <Eye className='flex'/>
+          </Tooltip> */}
+          <Skeleton className='h-6 w-6 rounded-full' />
+          <Skeleton className='h-7 w-16 rounded-xl' />
+        </TableCell>
+      </TableRow>
+    ))
+  );
+
   return (
     <div className="overflow-x-auto bg-black">
-      <Table aria-label="Example static collection table" selectionMode="single" color='primary' className='overflow-y-hidden'>
+      <Table isStriped isHeaderSticky aria-label="Example static collection table" className='w-full lg:w-3/5 m-auto' color='primary'>
         <TableHeader>
-          <TableColumn className='hidden'>Type</TableColumn>
-          <TableColumn>Category</TableColumn>
-          <TableColumn>Amount</TableColumn>
-          <TableColumn>Date</TableColumn>
-          <TableColumn>Description</TableColumn>
-          <TableColumn>Actions</TableColumn>
+          <TableColumn className='w-20 hidden lg:table-cell'>Type</TableColumn>
+          <TableColumn className='w-20'>Category</TableColumn>
+          <TableColumn className='w-20'>Amount</TableColumn>
+          <TableColumn className='w-20'>Date</TableColumn>
+          <TableColumn className='hidden sm:table-cell'>Description</TableColumn>
+          <TableColumn className='w-24'>Actions</TableColumn>
         </TableHeader>
-        <TableBody >
-          {transactions.length === 0 ? tableLoadingRows() : transactions.map((transaction) => (
-            <TableRow key={transaction._id} className={transaction.type === 'Income' ? 'text-success' : 'text-danger'} onTouchEnd={() => { setEditTransaction(transaction); onEditModalOpen(); }} onClick={() => { setEditTransaction(transaction); onEditModalOpen() }}>
-              <TableCell className='hidden'>{transaction.type}</TableCell>
-              <TableCell>{transaction.category_id}</TableCell>
-              <TableCell>{transaction.amount}</TableCell>
-              <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
-              <TableCell>{transaction.description}</TableCell>
-              <TableCell>
-                <button onClick={(e) => deleteTransaction(e, transaction._id)}>Delete</button>
+        <TableBody emptyContent={"No transactions to display."}>
+          {transactions.length === 0 && !emptyTransactions ? tableLoadingRows() : transactions.map((transaction) => (
+            <TableRow key={transaction._id} >
+              <TableCell className={`hidden lg:table-cell ${transaction.type == "Income" ? ' text-green-400' : ' text-danger'}`}>{transaction.type}</TableCell>
+              <TableCell className={transaction.type == "Income" ? ' text-green-400 lg:text-foreground' : ' text-danger lg:text-foreground'}>{transaction.category_id}</TableCell>
+              <TableCell className=''>{transaction.amount}</TableCell>
+              <TableCell className=''>{new Date(transaction.date).toLocaleDateString()}</TableCell>
+              <TableCell className='hidden sm:table-cell '>{transaction.description.length > 40 ? transaction.description.substring(0, 40) + "..." : transaction.description}</TableCell>
+              <TableCell className='flex flex-row gap-2 items-center'>
+                <Tooltip content="Click to View or Edit trasaction">
+                  <Eye className='flex' onClick={() => handleOpenEditModal(transaction)} />
+                </Tooltip>
+                <Button color='danger' className='flex h-7 min-w-1 w-16' variant='bordered' onClick={(e) => deleteTransaction(e, transaction._id)}>Delete</Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      {/* <Table aria-label="Example static collection table">
-        <TableHeader>
-          <TableRow className="text-slate-200">
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </TableRow >
-        </TableHeader>
-        <tbody>
-          {transactions.map((transaction) => (
-            <TableRow key={transaction._id}>
-              <td>{transaction.type}</td>
-              <td>{transaction.amount}</td>
-              <td>{transaction.category_id}</td>
-              <td>{new Date(transaction.date).toLocaleDateString()}</td>
-              <td>{transaction.description}</td>
-              <td>
-                <Button variant="bordered" color="danger" onClick={() => deleteTransaction(transaction._id)}>
-                  Delete
-                </Button>
-                <Button variant="bordered" color="primary" onClick={() => {
-                  setEditTransaction(transaction);
-                  onEditModalOpen();
-                }}>
-                  Edit
-                </Button>
-              </td>
-            </TableRow >
-          ))}
-        </tbody>
-      </Table> */}
 
       {/* Edit Modal */}
-      <Modal isOpen={isEditModalOpen} onOpenChange={onEditModalChange}>
+      <Modal isOpen={isEditModalOpen} onClose={onEditModalClose}>
         <ModalContent>
-          {onClose => (
-            <>
-              <ModalHeader>Edit Transaction</ModalHeader>
-              <ModalBody>
-                {editTransaction && (
-                  <div>
-                    <label>Type:</label>
-                    <select
-                      value={editTransaction.type}
-                      onChange={(e) => setEditTransaction({ ...editTransaction, type: e.target.value })}
-                      className="w-full"
-                    >
-                      <option value="Income">Income</option>
-                      <option value="Expense">Expense</option>
-                    </select>
-                    <label>Amount:</label>
-                    <input
-                      type="number"
-                      value={editTransaction.amount}
-                      onChange={(e) => setEditTransaction({ ...editTransaction, amount: Number(e.target.value) })}
-                      className="w-full"
-                    />
-                    <label>Category:</label>
-                    <input
-                      type="text"
-                      value={editTransaction.category_id}
-                      onChange={(e) => setEditTransaction({ ...editTransaction, category_id: e.target.value })}
-                      className="w-full"
-                    />
-                    <label>Date:</label>
-                    <input
-                      type="date"
-                      value={editTransaction.date.split('T')[0]}
-                      onChange={(e) => setEditTransaction({ ...editTransaction, date: e.target.value })}
-                      className="w-full"
-                    />
-                    <label>Description:</label>
-                    <input
-                      type="text"
-                      value={editTransaction.description}
-                      onChange={(e) => setEditTransaction({ ...editTransaction, description: e.target.value })}
-                      className="w-full"
-                    />
-                  </div>
-                )}
-              </ModalBody>
-              <ModalFooter>
-                <Button variant="bordered" color="danger" onPress={onClose}>
-                  Close
-                </Button>
-                <Button variant="bordered" color="primary" onPress={() => {
-                  if (editTransaction) {
-                    handleUpdate();
-                  }
-                  onClose();
-                }}>
-                  Save Changes
-                </Button>
-              </ModalFooter>
-            </>
-          )}
+          <ModalHeader>Edit Transaction</ModalHeader>
+          <ModalBody>
+            {editTransaction && (
+              <div>
+                <Select
+                            value={editTransaction.type}
+                            label="Transaction type"
+                            selectedKeys={[editTransaction.type]}
+                            onChange={(e: any) => handleFieldChange("type", e.target.value)}
+                            className="w-full"
+                        >
+                            <SelectItem key={"Expense"} value="Expense">Expense</SelectItem>
+                            <SelectItem key={"Income"} value="Income">Income</SelectItem>
+                        </Select>
+                {/* <label>Amount:</label>
+                <input
+                  type="number"
+                  value={editTransaction.amount}
+                  onChange={(e) => handleFieldChange("amount", Number(e.target.value))}
+                  className="w-full"
+                /> */}
+                <Input
+                  type="number"
+                  label="Amount"
+                  value={editTransaction.amount.toString()}
+                  onChange={(e) => handleFieldChange("amount", Number(e.target.value))}
+                  className="w-full"
+                />
+                <label>Category:</label>
+                <input
+                  type="text"
+                  value={editTransaction.category_id}
+                  onChange={(e) => handleFieldChange("category_id", e.target.value)}
+                  className="w-full"
+                />
+                <label>Date:</label>
+                <input
+                  type="date"
+                  value={editTransaction.date.split('T')[0]}
+                  onChange={(e) => handleFieldChange("date", e.target.value)}
+                  className="w-full"
+                />
+                {/* <label>Description:</label> */}
+                {/* <input
+                  type="text"
+                  value={editTransaction.description}
+                  onChange={(e) => handleFieldChange("description", e.target.value)}
+                  className="w-full"
+                /> */}
+                <Textarea
+                type='text'
+                value={editTransaction.description}
+                  label="Description"
+                  onChange={(e) => handleFieldChange("description", e.target.value)}
+                  placeholder="Enter your description"
+                  className="w-full"
+                />
+              </div>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="bordered" color="danger" onPress={onEditModalClose}>
+              Close
+            </Button>
+            <Button variant="bordered" color="primary" onPress={handleUpdate} isDisabled={!isSaveEnabled}>
+              Save Changes
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </div>
