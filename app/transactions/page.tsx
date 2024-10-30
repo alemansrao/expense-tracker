@@ -215,7 +215,7 @@ const App = () => {
       </Table>
 
       {/* Edit Modal */}
-      <Modal isOpen={isEditModalOpen} onClose={onEditModalClose}>
+      <Modal isOpen={isEditModalOpen} onClose={onEditModalClose} backdrop='blur'>
         <ModalContent>
           <ModalHeader>Edit Transaction</ModalHeader>
           <ModalBody className=''>
