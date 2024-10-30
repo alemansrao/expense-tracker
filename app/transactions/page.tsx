@@ -27,13 +27,6 @@ type Category = {
 };
 const App = () => {
   const { data: session } = useSession();
-  if (!session)
-    return <div className='w-full h-screen flex flex-col justify-center items-center'>
-      <p>You are not logged in</p>
-      <Button color='primary' onClick={() => signIn()} className='m-4'>
-        Sign in
-      </Button>
-    </div>;
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editTransaction, setEditTransaction] = useState<Transaction | null>(null);
   const [originalTransaction, setOriginalTransaction] = useState<Transaction | null>(null);
@@ -42,6 +35,13 @@ const App = () => {
   const username = 'alemansrao';
   const [emptyTransactions, setEmptyTransactions] = useState(false);
   const [allowedCategories, setAllowedCategories] = useState<Category[]>([]); // Initialize as an empty array // Store filtered categories based on type
+  if (!session)
+    return <div className='w-full h-screen flex flex-col justify-center items-center'>
+      <p>You are not logged in</p>
+      <Button color='primary' onClick={() => signIn()} className='m-4'>
+        Sign in
+      </Button>
+    </div>;
 
 
   const getTransactions = async () => {

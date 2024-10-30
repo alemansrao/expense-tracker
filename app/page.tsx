@@ -12,6 +12,7 @@ type Props = {};
 
 const HomePage = (props: Props) => {
   const { data: session } = useSession();
+  const [weeklyExpenses, setWeeklyExpenses] = useState([]);
   if (!session)
     return <div className='w-full h-screen flex flex-col justify-center items-center'>
       <p>You are not logged in</p>
@@ -19,7 +20,6 @@ const HomePage = (props: Props) => {
         Sign in
       </Button>
     </div>;
-  const [weeklyExpenses, setWeeklyExpenses] = useState([]);
 
   const handleToast = () => {
     if (session) {

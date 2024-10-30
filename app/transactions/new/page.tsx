@@ -21,13 +21,6 @@ const notes = ['Monthly spend', 'Savings', 'Credit Card', 'Debit Card', 'Other']
 
 const Page = (props: Props) => {
     const { data: session } = useSession();
-    if (!session)
-        return <div className='w-full h-screen flex flex-col justify-center items-center'>
-            <p>You are not logged in</p>
-            <Button color='primary' onClick={() => signIn()} className='m-4'>
-                Sign in
-            </Button>
-        </div>;
     const [type, setType] = useState("Expense");
     const [amount, setAmount] = useState(0);
     const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
@@ -43,6 +36,13 @@ const Page = (props: Props) => {
 
     const [allCategories, setAllCategories] = useState([]); // Store all categories (both Income and Expense)
     const [allowedCategories, setAllowedCategories] = useState<Category[]>([]); // Initialize as an empty array // Store filtered categories based on type
+    if (!session)
+        return <div className='w-full h-screen flex flex-col justify-center items-center'>
+            <p>You are not logged in</p>
+            <Button color='primary' onClick={() => signIn()} className='m-4'>
+                Sign in
+            </Button>
+        </div>;
 
     const validateData = () => {
         return type && amount > 0 && date && category && description;

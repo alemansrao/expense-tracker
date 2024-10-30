@@ -9,6 +9,9 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { Button } from '@nextui-org/react';
 const Page = () => {
   const { data: session } = useSession();
+  const [temp, setTemp] = useState(true)
+  const [allCategories, setAllCategories] = useState([]);
+  const [expenseCategory, setExpenseCategory] = useState([]);
   if (!session)
     return <div className='w-full h-screen flex flex-col justify-center items-center'>
       <p>You are not logged in</p>
@@ -16,9 +19,6 @@ const Page = () => {
         Sign in
       </Button>
     </div>;
-  const [temp, setTemp] = useState(true)
-  const [allCategories, setAllCategories] = useState([]);
-  const [expenseCategory, setExpenseCategory] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
