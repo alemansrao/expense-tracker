@@ -100,7 +100,7 @@ const Page = (props: Props) => {
                     </div>
 
                     <div className='flex justify-center items-center gap-4'>
-                        <Input type='number' label="Amount" value={amount} onChange={(e) => setAmount(parseInt(e.target.value))} className='w-full max-w-xs md:max-w-md'/>
+                        <Input type='number' label="Amount" value={amount.toString()} onChange={(e) => setAmount(parseInt(e.target.value))} className='w-full max-w-xs md:max-w-md' />
                     </div>
 
                     <div className='flex justify-center items-center gap-4'>
@@ -112,7 +112,7 @@ const Page = (props: Props) => {
                                 onChange={(e) => setDate(e.target.value)} />
                         </label>
                     </div>
-                    
+
 
                     <div className='flex justify-center items-center gap-4'>
                         {/*<label className="form-control w-full max-w-xs md:max-w-md">
@@ -139,8 +139,8 @@ const Page = (props: Props) => {
                             className="w-full max-w-xs md:max-w-md"
                         >
                             {allowedCategories.map((cat: any) => (
-                            <SelectItem key={cat.name} value={cat.name}>{cat.name}</SelectItem>
-                        ))}
+                                <SelectItem key={cat.name} value={cat.name}>{cat.name}</SelectItem>
+                            ))}
                         </Select>
                     </div>
 
