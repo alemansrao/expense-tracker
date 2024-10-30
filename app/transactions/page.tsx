@@ -88,7 +88,7 @@ const App = () => {
 
   const handleUpdate = async () => {
     if (!editTransaction || !isSaveEnabled) return;
-
+    console.log('Updating transaction:', JSON.stringify(editTransaction));
     const response = await fetch(`/api/transaction/${editTransaction._id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -111,6 +111,10 @@ const App = () => {
     if (editTransaction) {
       const updatedTransaction = { ...editTransaction, [field]: value };
       setEditTransaction(updatedTransaction);
+      if (field == 'type') {
+        setIsSaveEnabled(false);
+        return;
+      }
       // console.log("updated transaction" + JSON.stringify(updatedTransaction));
       // console.log("Original transaction" + JSON.stringify(originalTransaction));
       // Check if there's any difference between original and edited transaction
