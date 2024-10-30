@@ -6,11 +6,19 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getWeeklyExpenses } from "@/utils/api";
+import { Button } from '@nextui-org/react'
 
 type Props = {};
 
 const HomePage = (props: Props) => {
   const { data: session } = useSession();
+  if (!session)
+    return <div className='w-full h-screen flex flex-col justify-center items-center'>
+      <p>You are not logged in</p>
+      <Button color='primary' onClick={() => signIn()} className='m-4'>
+        Sign in
+      </Button>
+    </div>;
   const [weeklyExpenses, setWeeklyExpenses] = useState([]);
 
   const handleToast = () => {

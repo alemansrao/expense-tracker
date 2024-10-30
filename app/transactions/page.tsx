@@ -6,6 +6,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDi
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Textarea, Input, Select, SelectItem } from "@nextui-org/react";
 import { Skeleton } from "@nextui-org/skeleton";
 import { getCategory } from '@/utils/api';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 type Transaction = {
   _id: string;
@@ -25,6 +26,14 @@ type Category = {
   _id: string;
 };
 const App = () => {
+  const { data: session } = useSession();
+  if (!session)
+    return <div className='w-full h-screen flex flex-col justify-center items-center'>
+      <p>You are not logged in</p>
+      <Button color='primary' onClick={() => signIn()} className='m-4'>
+        Sign in
+      </Button>
+    </div>;
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editTransaction, setEditTransaction] = useState<Transaction | null>(null);
   const [originalTransaction, setOriginalTransaction] = useState<Transaction | null>(null);
@@ -99,6 +108,7 @@ const App = () => {
     if (response.ok) {
       toast.success(data.message);
       getTransactions();
+      setIsSaveEnabled(false);
       onEditModalClose();
     } else {
       toast.error(data.message);

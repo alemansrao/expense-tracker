@@ -8,6 +8,7 @@ import { submitTransaction } from '@/utils/api';
 import { Button, Input, Select, SelectItem, Textarea, DateInput, DatePicker } from "@nextui-org/react";
 import { DateValue, now, getLocalTimeZone } from "@internationalized/date";
 import { useDateFormatter } from "@react-aria/i18n";
+import { signIn, signOut, useSession } from 'next-auth/react';
 type Props = {}
 
 type Category = {
@@ -16,11 +17,17 @@ type Category = {
     username: string;
     _id: string;
 };
-const today = now('UTC');
 const notes = ['Monthly spend', 'Savings', 'Credit Card', 'Debit Card', 'Other'];
 
 const Page = (props: Props) => {
-    console.log(today)
+    const { data: session } = useSession();
+    if (!session)
+        return <div className='w-full h-screen flex flex-col justify-center items-center'>
+            <p>You are not logged in</p>
+            <Button color='primary' onClick={() => signIn()} className='m-4'>
+                Sign in
+            </Button>
+        </div>;
     const [type, setType] = useState("Expense");
     const [amount, setAmount] = useState(0);
     const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
