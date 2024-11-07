@@ -3,7 +3,7 @@ import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { insertUserData } from "@/utils/api";
-export const authOptions = {
+const authOptions = {
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENTID ?? "",
