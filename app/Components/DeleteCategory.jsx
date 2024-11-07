@@ -1,45 +1,58 @@
 import { deleteCategory } from '@/utils/api';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import Card from "@/app/Components/Card"
+import Card from "@/app/Components/Card";
 import { Trash } from 'react-feather';
-import { Button, Select, SelectItem,Skeleton } from '@nextui-org/react';
+import { Button, Select, SelectItem, Skeleton } from '@nextui-org/react';
+
 const DeleteCategory = ({ categories, setTemp }) => {
+    // State to keep track of the selected category for deletion
     const [currentCategory, setCurrentCategory] = useState(null);
+
+    // Array of category IDs that should be disabled (Savings, Shopping, Transfer)
+    const disabledCategoryIds = categories
+        .filter(category => ['Savings', 'Shopping', 'Transfer'].includes(category.name))
+        .map(category => category._id);
+
+    // Function to handle the deletion of a category
     const handleDelete = async () => {
-
         if (currentCategory) {
+            // Check if the selected category is in the list of disabled categories
+            if (disabledCategoryIds.includes(currentCategory)) {
+                toast.error('This category cannot be deleted');
+                return;  // Exit the function early if the category is disabled
+            }
+    
+            // Call the API to delete the category
             const response = await deleteCategory(currentCategory);
-
-            // Check if the response is OK
+    
+            // Check if the deletion was successful
             if (response && response.ok) {
-                // Optionally, handle success (e.g., reset the form or show a success message)
                 toast.success('Category deleted successfully');
-                // Reset fields
+                // Reset the selected category and trigger a re-fetch of categories
                 setCurrentCategory(null);
-                setTemp(prev => !prev)
+                setTemp(prev => !prev);  // Toggle the state to refresh categories
             } else {
-                // Handle errors
-                const errorData = await response.json(); // Parse the JSON response to get the error message
-                const errorMessage = errorData.error || currentCategory + ' category not deleted'; // Default to a generic error message
-
+                // Handle errors in case of failure
+                const errorData = await response.json(); // Parse the error message
+                const errorMessage = errorData.error || currentCategory + ' category not deleted';
                 toast.error(errorMessage);
             }
-            // setTemp(prev => !prev)
-        }
-        else {
+        } else {
+            // Error if no category is selected
             toast.error('Please select a category to delete');
         }
     }
-    // useEffect(() => {
-    //     console.log("categories changed")
-    // }, [categories])
+    
 
+    // Function to render the body of the card (Select input and Skeleton loader)
     const body = () => (
         categories.length > 0 ? (
             <Select
                 label="Select category to delete"
-                onChange={(e) => setCurrentCategory(e.target.value)} >
+                onChange={(e) => setCurrentCategory(e.target.value)}  // Update selected category
+                // disabledKeys={disabledCategoryIds}  // Disable categories with specific IDs
+            >
                 {categories.map((category) => (
                     <SelectItem key={category._id} value={category._id}>
                         {category.name}
@@ -47,40 +60,19 @@ const DeleteCategory = ({ categories, setTemp }) => {
                 ))}
             </Select>
         ) : (
-            <Skeleton className="flex rounded-xl w-full h-14" />
+            <Skeleton className="flex rounded-xl w-full h-14" />  // Show a loading skeleton if categories are empty
         )
     );
 
-
+    // Footer content for the card, including the delete button
     const footer = () => (
         <Button variant="bordered" onClick={handleDelete} color='primary'>Delete</Button>
-    )
+    );
 
+    // Return the Card component with title, body, and footer
     return (
         <Card title="Delete Category" image={<Trash />} body={body()} footer={footer()} />
-        // <div className="card bg-neutral text-neutral-content w-full">
-        //     <div className="card-body items-center text-center justify-evenly">
-        //         <h2 className="card-title">Delete Category</h2>
-
-        //         {/* Category Selection */}
-        //         <div className='flex flex-col gap-3 items-center w-full justify-between'>
-        //             <select className='select w-full select-bordered max-w-sm md:max-w-md'
-        //                 defaultValue={'dummy'}
-        //                 onChange={(e) => setCurrentCategory(e.target.value)}
-        //             >
-        //                 <option disabled value='dummy'>Select a Category to delete</option>
-        //                 {categories.map((category) => (
-        //                     <option key={category._id} value={`${category._id}`}>{category.name}</option>
-        //                 ))}
-        //             </select>
-        //             <button className='btn btn-primary'
-        //                 onClick={() => handleDelete()}
-        //             >Delete</button>
-        //         </div>
-
-        //     </div>
-        // </div>
-    )
+    );
 }
 
-export default DeleteCategory
+export default DeleteCategory;
