@@ -28,23 +28,25 @@ export default function BarChartComponent({ expenses }: BarChartProps) {
       const myChart = echarts.init(chartDom, 'dark');
 
       // Prepare data for the chart
-      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
       const expenseData = Array(7).fill(0); // Initialize expense data for each day
 
       expenses.forEach(transaction => {
         const transactionDate = new Date(transaction.date);
         const dayOfWeek = transactionDate.getDay(); // Get the day (0-Sun, 1-Mon, ..., 6-Sat)
-        if (dayOfWeek > 0) { // Adjusting since getDay() returns 0 for Sunday
-          expenseData[dayOfWeek - 1] += transaction.amount; // Add amount to corresponding day
-        }
+        expenseData[dayOfWeek] += transaction.amount; // Directly add amount to corresponding day
       });
+      const titleText = expenses.length > 0 ? "Weekly Expenses" : "No Transactions Found";
 
       const option: EChartsOption = {
         title: {
-          text: 'Weekly Expenses',
+          text: titleText,
           left: '5%',
-          top:"5%"
+          top: "5%"
           // subtext: 'Living Expenses in Shenzhen'
+        },
+        tooltip: {
+          trigger: 'item'
         },
         grid: {
           left: '3%',

@@ -32,7 +32,7 @@ const App = () => {
   const [originalTransaction, setOriginalTransaction] = useState<Transaction | null>(null);
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
   const { isOpen: isEditModalOpen, onOpen: onEditModalOpen, onClose: onEditModalClose } = useDisclosure();
-  const username = 'alemansrao';
+  const username = `${session?.user?.email}`;
   const [emptyTransactions, setEmptyTransactions] = useState(false);
   const [allowedCategories, setAllowedCategories] = useState<Category[]>([]); // Initialize as an empty array // Store filtered categories based on type
 
@@ -125,7 +125,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const categories = await getCategory();
+      const categories = await getCategory(`${session?.user?.email}`);
       setAllowedCategories(categories.filter((cat: any) => cat.type === editTransaction?.type));
     };
 

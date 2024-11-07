@@ -41,7 +41,7 @@ const AddCategory = (props) => {
         const categoryData = {
             name,
             type,
-            username: 'alemansrao', // Hardcoded username for testing
+            username: props.username, // Hardcoded username for testing
             limit: type === 'Income' ? null : limit
         };
 

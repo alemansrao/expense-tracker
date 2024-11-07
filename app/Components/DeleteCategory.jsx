@@ -31,9 +31,9 @@ const DeleteCategory = ({ categories, setTemp }) => {
             toast.error('Please select a category to delete');
         }
     }
-    useEffect(() => {
-        console.log("categories changed")
-    }, [categories])
+    // useEffect(() => {
+    //     console.log("categories changed")
+    // }, [categories])
 
     const body = () => (
         categories.length > 0 ? (

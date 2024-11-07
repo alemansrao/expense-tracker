@@ -31,7 +31,7 @@ const Page = (props: Props) => {
         year: "numeric"
     });
     const [category, setCategory] = useState("");
-    const [username, setUsername] = useState("alemansrao");
+    const [username, setUsername] = useState(`${session?.user?.email}`);
     const [description, setDescription] = useState(notes[Math.floor(Math.random() * notes.length)]);
 
     const [allCategories, setAllCategories] = useState([]); // Store all categories (both Income and Expense)
@@ -66,7 +66,7 @@ const Page = (props: Props) => {
     useEffect(() => {
         setAmount(Math.round(Math.random() * 1000));
         const fetchCategories = async () => {
-            const categories = await getCategory();
+            const categories = await getCategory(`${session?.user?.email}`);
             setAllCategories(categories);
             setAllowedCategories(categories.filter((cat: any) => cat.type === type));
         };

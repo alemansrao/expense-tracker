@@ -15,11 +15,11 @@ const Page = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const categories = await getCategory();
+      const categories = await getCategory(`${session?.user?.email}`);
       setExpenseCategory(categories.filter((cat) => cat.type === 'Expense'));
       setAllCategories(categories);
     };
-    console.log("testing")
+    // console.log(session)
     fetchCategories();
   }, [temp]); // Fetch categories when new category added
 
@@ -34,9 +34,9 @@ const Page = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-4 p-4">
 
-      <AddCategory setTemp={setTemp} />
-      <LimitSetting expenseCategory={expenseCategory} />
-      <DeleteCategory categories={allCategories} setTemp={setTemp} />
+      <AddCategory setTemp={setTemp} username={session?.user?.email} />
+      <LimitSetting expenseCategory={expenseCategory} username={session?.user?.email} />
+      <DeleteCategory categories={allCategories} setTemp={setTemp} username={session?.user?.email} />
     </div>
   )
 }

@@ -1,7 +1,7 @@
-export const getCategory = async (username: string = "alemansrao") => {
+export const getCategory = async (username: string, type = 'all') => {
   try {
     //add Access-Control-Allow-Origin
-    const response = await fetch(`/api/category?username=${username}`,
+    const response = await fetch(`/api/category?username=${username}&type=${type}`,
       { headers: { "Access-Control-Allow-Origin": "*" } });
     if (!response.ok) throw new Error("Failed to fetch categories");
 
@@ -27,7 +27,7 @@ export const submitTransaction = async (transactionData: any) => {
   }
 };
 
-export const getLimit = async (username: string = "alemansrao", category: string) => {
+export const getLimit = async (username: string = "sharathrao99@gmail.com", category: string) => {
   try {
     const response = await fetch(`/api/limit?username=${username}&category=${category}`);
     if (!response.ok) throw new Error("Failed to fetch limit");
@@ -79,22 +79,22 @@ export const updateLimit = async (limitData: any) => {
   }
 }
 
-export const getWeeklyExpenses = async (username = "alemansrao") => {
+export const getWeeklyExpenses = async (username = "sharathrao99@gmail.com") => {
   try {
     // Calculate the start and end dates of the current week
     const today = new Date();
     const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay()); // Set to Sunday
-    startOfWeek.setHours(0, 0, 0, 0);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    startOfWeek.setHours(5, 30, 0, 0);
 
     const endOfWeek = new Date(today);
-    endOfWeek.setDate(today.getDate() + (6 - today.getDay())); // Set to Saturday
-    endOfWeek.setHours(23, 59, 59, 999);
+    endOfWeek.setDate(today.getDate() + (6 - today.getDay()));
+    endOfWeek.setHours(5, 30, 0, 0);
 
     // Format dates to ISO strings for API compatibility
     const startDateISO = startOfWeek.toISOString();
     const endDateISO = endOfWeek.toISOString();
-    console.log(startDateISO, endDateISO);
+    // console.log(startDateISO, endDateISO);
     // Fetch expense transactions from the API
     const response = await fetch(
       `/api/transaction?username=${username}&startDate=${startDateISO}&endDate=${endDateISO}`,
@@ -111,3 +111,29 @@ export const getWeeklyExpenses = async (username = "alemansrao") => {
   }
 };
 
+export const fetchMonthlyTransactions = async (username: string) => {
+  try {
+    const startDate = new Date(new Date().setDate(1)); // First day of the month
+    startDate.setHours(5, 30, 0, 0);
+    const endDate = new Date(new Date().setMonth(startDate.getMonth() + 1, 0)); // Last day of the month
+    endDate.setHours(5, 30, 0, 0);
+    const startDateISO = startDate.toISOString();
+    const endDateISO = endDate.toISOString();
+
+    const response = await fetch(`/api/transaction?username=${username}&startDate=${startDateISO}&endDate=${endDateISO}`);
+    if (!response.ok) {
+      throw new Error("Error fetching transactions");
+    }
+
+    const data = await response.json();
+    console.log(data);
+    return data.transactions;
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+    return [];
+  }
+};
+
+export const insertUserData = (user: any) => {
+  console.log("User has been logged in ");
+}

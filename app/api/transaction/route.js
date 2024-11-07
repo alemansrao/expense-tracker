@@ -3,15 +3,16 @@ import Transaction from "@/models/transaction";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  const { type,amount,date,category,username,description } = await request.json();
+  const { type, amount, date, category, username, description } =
+    await request.json();
   await ConnectMongoDb();
-  
+
   // const isoString = new Date(`${date.year}-${date.month}-${date.day}`).toISOString();
   // Make sure the schema fields match
   await Transaction.create({
     username,
-    category_id: category,  // Use correct field names
-    type,                  // Use "type" to match the schema
+    category_id: category, // Use correct field names
+    type, // Use "type" to match the schema
     amount,
     description,
     date,
@@ -22,15 +23,15 @@ export async function POST(request) {
 
 export async function GET(request) {
   await ConnectMongoDb();
-  
+
   const { searchParams } = new URL(request.url);
   const username = searchParams.get("username");
   const startDate = searchParams.get("startDate");
   const endDate = searchParams.get("endDate");
-  
+
   // Build the query object
   const query = { username }; // Default filter by username
-  
+
   if (startDate && endDate) {
     query.date = {
       $gte: new Date(startDate),
@@ -39,7 +40,9 @@ export async function GET(request) {
     query.type = "Expense";
   }
 
-  const transactions = await Transaction.find(query).sort({ date: -1, createdAt: -1 });
-  
+  const transactions = await Transaction.find(query).sort({
+    date: -1,
+    createdAt: -1,
+  });
   return NextResponse.json({ transactions }, { status: 200 });
 }

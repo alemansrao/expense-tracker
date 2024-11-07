@@ -7,6 +7,8 @@ export async function GET(request) {
   await ConnectMongoDb();
 
   const username = request.nextUrl.searchParams.get("username");
+  const type = request.nextUrl.searchParams.get("type"); // Get the type parameter
+
   if (!username) {
     return NextResponse.json(
       { error: "Username is required" },
@@ -14,8 +16,14 @@ export async function GET(request) {
     );
   }
 
+  // Create the query object
+  const query = { username };
+  if (type != "all") {
+    query.type = type; // Add the type filter if it exists
+  }
+
   try {
-    const categories = await Categories.find({ username }).sort({createdAt: -1,});
+    const categories = await Categories.find(query).sort({ createdAt: -1 });
     return NextResponse.json(
       { categories },
       { status: 200, headers: { "Cache-Control": "no-store" } }
@@ -64,4 +72,3 @@ export async function POST(request) {
 }
 
 // Delete a category by ID
-
