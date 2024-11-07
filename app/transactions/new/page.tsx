@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getCategory } from '@/utils/api';
 import { validateTransaction } from '@/utils/validation';
 import { submitTransaction } from '@/utils/api';
-import { Button, Input, Select, SelectItem, Textarea   } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { useDateFormatter } from "@react-aria/i18n";
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -98,7 +98,11 @@ const Page = (props: Props) => {
     return (
         <div className='md:flex md:flex-row md:gap-5 md:h-[calc(100vh-4rem)] bg-black '>
             <div className='md:w-1/2 justify-center items-center h-full hidden md:flex'>
-            <Image src="https://cdn-icons-png.flaticon.com/512/7601/7601286.png" alt="" className='grayscale'></Image>
+                <Image src="https://cdn-icons-png.flaticon.com/512/7601/7601286.png"
+                    width={400} height={400}
+                    alt=""
+                    className=''>
+                </Image>
             </div>
 
             <div className='md:w-1/2 flex justify-center items-center h-full'>
