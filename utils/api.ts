@@ -79,7 +79,7 @@ export const updateLimit = async (limitData: any) => {
   }
 }
 
-export const getWeeklyExpenses = async (username = "sharathrao99@gmail.com") => {
+export const getWeeklyExpenses = async (username : string) => {
   try {
     // Calculate the start and end dates of the current week
     const today = new Date();
@@ -135,5 +135,6 @@ export const fetchMonthlyTransactions = async (username: string) => {
 };
 
 export const insertUserData = (user: any) => {
-  
+  //insert data to db if not exists
+  console.log("user", user);
 }
