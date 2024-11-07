@@ -1,8 +1,8 @@
-import { callback } from "chart.js/helpers";
 import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { insertUserData } from "@/utils/api";
+
 const authOptions = {
   providers: [
     GitHubProvider({
@@ -21,7 +21,7 @@ const authOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       // Call your custom function here
-      insertUserData(user);
+      await insertUserData(user);
 
       // Return true to allow sign-in
       return true;
@@ -29,6 +29,6 @@ const authOptions = {
   },
 };
 
+// Export the NextAuth handler as the default export
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };
