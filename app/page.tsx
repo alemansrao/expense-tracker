@@ -21,7 +21,7 @@ const HomePage = (props: Props) => {
     if (session) { // Run only when session is available
       const fetchWeeklyExpenses = async () => {
         setLoading(false);  // Set loading to true before fetching data
-        const expenses = await getWeeklyExpenses();
+        const expenses = await getWeeklyExpenses(`${session.user?.email}`);
         setWeeklyExpenses(expenses);
       };
 
