@@ -1,14 +1,14 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { getCategory } from '@/utils/api';
 import { validateTransaction } from '@/utils/validation';
 import { submitTransaction } from '@/utils/api';
-import { Button, Input, Select, SelectItem, Textarea, DateInput, DatePicker } from "@nextui-org/react";
-import { DateValue, now, getLocalTimeZone } from "@internationalized/date";
+import { Button, Input, Select, SelectItem, Textarea   } from "@nextui-org/react";
 import { useDateFormatter } from "@react-aria/i18n";
 import { signIn, signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
 type Props = {}
 
 type Category = {
@@ -98,7 +98,7 @@ const Page = (props: Props) => {
     return (
         <div className='md:flex md:flex-row md:gap-5 md:h-[calc(100vh-4rem)] bg-black '>
             <div className='md:w-1/2 justify-center items-center h-full hidden md:flex'>
-                <img src="https://cdn-icons-png.flaticon.com/512/7601/7601286.png" alt="" className='grayscale' />
+            <Image src="https://cdn-icons-png.flaticon.com/512/7601/7601286.png" alt="" className='grayscale'></Image>
             </div>
 
             <div className='md:w-1/2 flex justify-center items-center h-full'>

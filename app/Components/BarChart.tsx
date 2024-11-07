@@ -79,6 +79,6 @@ export default function BarChartComponent({ expenses }: BarChartProps) {
   }, [expenses]); // Run effect again when expenses change
 
   return (
-    <div id="barChart" style={{ width: '100%', height: '100%' }}></div>
+    <div id="barChart" style={{ width: '100%', height: '100%'}}></div>
   );
 }

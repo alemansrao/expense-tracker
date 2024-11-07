@@ -15,12 +15,12 @@ const HomePage = (props: Props) => {
   const { data: session } = useSession();
   const [weeklyExpenses, setWeeklyExpenses] = useState([]);
   const [monthlyExpenses, setMonthlyExpenses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (session) { // Run only when session is available
       const fetchWeeklyExpenses = async () => {
-        setLoading(true);  // Set loading to true before fetching data
+        setLoading(false);  // Set loading to true before fetching data
         const expenses = await getWeeklyExpenses();
         setWeeklyExpenses(expenses);
       };
@@ -54,7 +54,7 @@ const HomePage = (props: Props) => {
       <div className="grid grid-cols-2 md:grid-cols-4 text-white gap-2 p-3">
 
 
-        <div className='border bg-slate-400 h-96 justify-center items-center flex md:row-span-4 col-span-2'>
+        <div className='border bg-[#100c2a] h-96 justify-center items-center flex md:row-span-4 col-span-2'>
           {loading ? (
             <Skeleton className="rounded-lg h-full w-full">
               <div className="rounded-lg bg-default-300"></div>
@@ -64,7 +64,7 @@ const HomePage = (props: Props) => {
           )}
         </div>
         <div className='divider col-span-2 md:hidden'></div>
-        <div className='border bg-slate-400 h-96 justify-center items-center flex md:row-span-4 col-span-2'>
+        <div className='border bg-[#100c2a] h-96 justify-center items-center flex md:row-span-4 col-span-2'>
           {loading ? (
             <Skeleton className="rounded-lg h-full w-full">
               <div className="rounded-lg bg-default-300"></div>
@@ -74,7 +74,7 @@ const HomePage = (props: Props) => {
           )}
         </div>
         <div className='divider col-span-2 md:hidden'></div>
-        <div className='border bg-slate-400 h-96 justify-center items-center flex md:col-span-2 md:row-span-4 col-span-2'>
+        <div className='border bg-[#100c2a] h-96 justify-center items-center flex md:col-span-2 md:row-span-4 col-span-2'>
           {loading ? (
             <Skeleton className="rounded-lg h-full w-full">
               <div className="rounded-lg bg-default-300"></div>

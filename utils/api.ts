@@ -135,5 +135,5 @@ export const fetchMonthlyTransactions = async (username: string) => {
 };
 
 export const insertUserData = (user: any) => {
-  console.log("User has been logged in ");
+  
 }
