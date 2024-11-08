@@ -30,9 +30,14 @@ const HomePage = (props: Props) => {
         setMonthlyExpenses(expenses);
         setLoading(false);  // Set loading to false once data is fetched
       };
-
-      fetchWeeklyExpenses();
-      fetchMonthlyExpenses();
+      if (!weeklyExpenses) {
+        console.log("Fetching weekly expenses");
+        fetchWeeklyExpenses();
+      }
+      if (!monthlyExpenses) {
+        console.log("Fetching monthly expenses");
+        fetchMonthlyExpenses();
+      }
     }
   }, [session]);
 
