@@ -2,7 +2,8 @@
 
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { insertUserData } from "@/utils/api";
+// import { insertUserData } from "@/utils/api";
+import handleUserSignIn from "@/utils/handleSignIn";
 
 const authOptions = {
   providers: [
@@ -21,9 +22,9 @@ const authOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       console.log(user)
-      console.log(account)
-      console.log(profile)
-      // await insertUserData(user);
+      // console.log(account)
+      // console.log(profile)
+      await handleUserSignIn(user);
       return true;
     },
   },

@@ -79,7 +79,7 @@ export const updateLimit = async (limitData: any) => {
   }
 }
 
-export const getWeeklyExpenses = async (username : string) => {
+export const getWeeklyExpenses = async (username: string) => {
   try {
     // Calculate the start and end dates of the current week
     const today = new Date();
@@ -126,7 +126,7 @@ export const fetchMonthlyTransactions = async (username: string) => {
     }
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data.transactions;
   } catch (error) {
     console.error("Error fetching transactions:", error);
@@ -134,7 +134,12 @@ export const fetchMonthlyTransactions = async (username: string) => {
   }
 };
 
-export const insertUserData = (user: any) => {
-  //insert data to db if not exists
-  console.log("user", user);
-}
+// export const insertUserData = (user: any, profile: any, account: any) => {
+//   //insert data to db if not exists
+//   console.log("user", user);
+//   console.log("profile", profile);
+//   console.log("account", account);
+// }
+
+
+

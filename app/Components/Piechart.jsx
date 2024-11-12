@@ -8,7 +8,7 @@ import { TooltipComponent } from 'echarts/components';
 
 echarts.use([GridComponent, BarChart, PieChart, CanvasRenderer, TooltipComponent]);
 
-export default function PieChartComponent({ expenses = [] }) {
+export default function PieChartComponent({ expenses }) {
     useEffect(() => {
 
         // Group expenses by category and calculate total amounts
@@ -20,7 +20,7 @@ export default function PieChartComponent({ expenses = [] }) {
             acc[category_id] += amount;
             return acc;
         }, {});
-        console.log(expenseData)
+        // console.log(expenseData)
         // Prepare data in the format ECharts expects
         const chartData = Object.keys(expenseData).map(category => ({
             value: expenseData[category],

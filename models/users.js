@@ -1,12 +1,16 @@
 import mongoose, { Schema } from "mongoose";
-const usersSchema = new Schema(
+
+const appUsersSchema = new Schema(
   {
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    name: { type: String, required: true },
     email: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-const Users = mongoose.model.Users || mongoose.model("Users", usersSchema);
-export default Users;
+appUsersSchema.index({ email: 1 }, { unique: true });
+
+// Safely retrieve or define the model
+const AppUsers = mongoose.models.Appusers || mongoose.model("Appusers", appUsersSchema);
+
+export default AppUsers;

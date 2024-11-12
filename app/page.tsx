@@ -22,24 +22,27 @@ const HomePage = (props: Props) => {
       const fetchWeeklyExpenses = async () => {
         setLoading(false);  // Set loading to true before fetching data
         const expenses = await getWeeklyExpenses(`${session.user?.email}`);
+        console.log("got weekly expenses", expenses)
         setWeeklyExpenses(expenses);
       };
 
       const fetchMonthlyExpenses = async () => {
         const expenses = await fetchMonthlyTransactions(`${session.user?.email}`);
         setMonthlyExpenses(expenses);
+        console.log("got monthly expenses", expenses)
+
         setLoading(false);  // Set loading to false once data is fetched
       };
-      if (!weeklyExpenses) {
+      if (weeklyExpenses.length === 0) {
         console.log("Fetching weekly expenses");
         fetchWeeklyExpenses();
       }
-      if (!monthlyExpenses) {
+      if (monthlyExpenses.length === 0) {
         console.log("Fetching monthly expenses");
         fetchMonthlyExpenses();
       }
     }
-  }, [session]);
+  }, []);
 
   if (!session)
     return <div className='w-full h-screen flex flex-col justify-center items-center'>
