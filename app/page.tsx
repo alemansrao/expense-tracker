@@ -4,10 +4,10 @@ import BarChart from './Components/BarChart';
 import RadarChartComponent from './Components/RadarChart';
 import Piechart from './Components/Piechart';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getWeeklyExpenses, fetchMonthlyTransactions } from "@/utils/api";
 import { Button, Skeleton } from '@nextui-org/react'
+import LineChart from './Components/LineChart';
 
 type Props = {};
 
@@ -89,6 +89,16 @@ const HomePage = (props: Props) => {
             </Skeleton>
           ) : (
             <RadarChartComponent username={`${session?.user?.email}`} transactions={monthlyExpenses} />
+          )}
+        </div>
+        <div className='divider col-span-2 md:hidden'></div>
+        <div className='border bg-[#100c2a] h-96 justify-center items-center flex md:col-span-2 md:row-span-4 col-span-2'>
+          {loading ? (
+            <Skeleton className="rounded-lg h-full w-full">
+              <div className="rounded-lg bg-default-300"></div>
+            </Skeleton>
+          ) : (
+            <LineChart username={`${session?.user?.email}`} />
           )}
         </div>
       </div>
