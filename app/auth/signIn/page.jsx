@@ -36,8 +36,8 @@ export default function SignIn() {
                     <div key={provider.name} className="w-64 h-fit flex flex-col items-center justify-center">
                         {provider.name === "Google" ? (
                             <img src="/google.png" className="cursor-pointer flex" onClick={() => signIn(provider.id)} />
-                        ) : provider.name === "GitHub" ? (
-                            <img src="/github1.png" className="cursor-pointer flex" onClick={() => signIn(provider.id)} />
+                        ) : provider.name === "GitHub" ? (""
+                            // <img src="/github1.png" className="cursor-pointer flex" onClick={() => signIn(provider.id)} />
                         ) : ""}
                     </div>
                 ))}
