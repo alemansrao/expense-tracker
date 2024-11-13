@@ -64,10 +64,10 @@ const RadarChartComponent = ({ username, transactions }) => {
       if (existingChart) {
         existingChart.dispose();
       }
-      
+
       const titleText = transactions.length > 0 ? "Budget vs Spending" : "No Transactions Found";
       const myChart = echarts.init(chartRef.current, 'dark');
-      
+
       const option = {
         title: {
           text: titleText,
@@ -90,8 +90,8 @@ const RadarChartComponent = ({ username, transactions }) => {
             name: 'Budget vs Spending',
             type: 'radar',
             data: transactions.length > 0 ? [
-              { value: chartData.budget, name: 'Budget' },
-              { value: chartData.expense, name: 'Expense' },
+              { value: chartData.budget, name: 'Budget', itemStyle: { color: '#7cffb2' } },
+              { value: chartData.expense, name: 'Expense', itemStyle: { color: '#4992ff' } },
             ] : [
               { value: [], name: 'Budget' },
               { value: [], name: 'Expense' }

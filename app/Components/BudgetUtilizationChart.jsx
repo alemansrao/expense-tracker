@@ -48,7 +48,7 @@ const BudgetUtilizationChart = ({ username }) => {
           (sum, transaction) => sum + transaction.amount,
           0
         );
-        const utilizationPercentage = (totalSpent / (category.limit || 1)) * 100; // Avoid division by zero
+        const utilizationPercentage = Math.round((totalSpent / (category.limit || 1)) * 100); // Avoid division by zero
 
         utilizationMap[category.name] = utilizationPercentage;
       });
@@ -74,23 +74,13 @@ const BudgetUtilizationChart = ({ username }) => {
       // Prepare the chart data
       const categoryNames = Object.keys(utilizationData);
       const utilizationValues = categoryNames.map((category) => utilizationData[category]);
-      function getColorByUtilization(utilization) {
-        if (utilization <= 20) {
-          return "#00b140"; // Green for 0-20%
-        } else if (utilization <= 40) {
-          return "#66cc33"; // Lighter green for 20-40%
-        } else if (utilization <= 60) {
-          return "#ffcc00"; // Yellowish for 40-60% (mix of green and red)
-        } else if (utilization <= 80) {
-          return "#ff6600"; // More reddish for 60-80%
-        } else {
-          return "#a90000"; // Red for 80-100%
-        }
-      }
+      const titleText = categories.length > 0 ? "Budget Utilization per Category" : "No Transactions Found";
       const option = {
         title: {
-          text: "Budget Utilization per Category",
-          left: "center",
+          text: titleText,
+          left: '5%',
+          top: "5%"
+          // subtext: 'Living Expenses in Shenzhen'
         },
         tooltip: {
           trigger: "item",
@@ -114,7 +104,7 @@ const BudgetUtilizationChart = ({ username }) => {
             data: utilizationValues.map((utilization, index) => ({
               value: utilization,
               itemStyle: {
-                color: getColorByUtilization(utilization),
+                color: "#4992ff",
               },
             })),
           },

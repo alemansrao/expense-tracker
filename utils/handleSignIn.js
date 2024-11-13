@@ -74,7 +74,7 @@ async function addUserToDatabase(user) {
 async function createDefaultCategories(user) {
     const categories = [
         { type: "Expense", name: "Shopping", username: user.email, limit: 5000 },
-        { type: "Expense", name: "Savings", username: user.email, limit: 5000 },
+        { type: "Expense", name: "Food", username: user.email, limit: 5000 },
         { type: "Expense", name: "Transfer", username: user.email, limit: 5000 },
     ];
 

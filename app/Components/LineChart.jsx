@@ -36,7 +36,7 @@ const LineChartComponent = ({ username, allSpendsOfYear }) => {
         };
 
         loadMonthlyExpenseData();
-    }, [username,allSpendsOfYear]);
+    }, [username, allSpendsOfYear]);
 
     useEffect(() => {
         if (chartRef.current) {
@@ -44,7 +44,7 @@ const LineChartComponent = ({ username, allSpendsOfYear }) => {
             if (existingChart) {
                 existingChart.dispose();
             }
-            const titleText = monthlyData.every(value => value === 0) ? "No Expenses Found" : "Monthly Expenses";
+            const titleText = monthlyData.every(value => value === 0) ? "No Transactions Found" : "Monthly Expenses";
             const myChart = echarts.init(chartRef.current, "dark");
 
             const option = {
@@ -56,21 +56,14 @@ const LineChartComponent = ({ username, allSpendsOfYear }) => {
                 tooltip: {
                     trigger: "axis"
                 },
-                grid: {
-                    top: "20%",
-                    bottom: "10%",
-                    left: "15%",
-                },
+
                 xAxis: {
                     type: "category",
                     data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
                 },
                 yAxis: {
                     type: "value",
-                    name: "Expense Amount",
-                    nameTextStyle: {
-                        align: "center"
-                    },
+
                 },
 
                 series: [

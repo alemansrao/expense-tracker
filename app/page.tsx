@@ -9,6 +9,7 @@ import { getWeeklyExpenses, fetchMonthlyTransactions } from "@/utils/api";
 import { Button, Skeleton } from '@nextui-org/react'
 import LineChart from './Components/LineChart';
 import BudgetUtilizationChart from './Components/BudgetUtilizationChart';
+import IncomeExpenseGrowthChart from './Components/IncomeExpenseGrowthChart';
 import { fetchYearlyTransactions } from '@/utils/api';
 type Props = {};
 
@@ -66,7 +67,7 @@ const HomePage = (props: Props) => {
     <div>
       {session &&
         <div className='text-2xl text-center py-3 px-2'>
-          Hi <span className='text-primary'>{session?.user?.name}</span>, Welcome to Expense Tracker
+          Hi <span className='text-[#4992ff]'>{session?.user?.name}</span>, Welcome to Expense Tracker
         </div>
       }
       <div className="grid grid-cols-2 md:grid-cols-4 text-white gap-2 p-3">
@@ -119,6 +120,16 @@ const HomePage = (props: Props) => {
             </Skeleton>
           ) : (
             <BudgetUtilizationChart username={`${session?.user?.email}`} />
+          )}
+        </div>
+        <div className='divider col-span-2 md:hidden'></div>
+        <div className='border bg-[#100c2a] h-96 justify-center items-center flex md:col-span-2 md:row-span-4 col-span-2'>
+          {loading ? (
+            <Skeleton className="rounded-lg h-full w-full">
+              <div className="rounded-lg bg-default-300"></div>
+            </Skeleton>
+          ) : (
+            <IncomeExpenseGrowthChart username={`${session?.user?.email}`} allTransactions={yearlyExpenses} />
           )}
         </div>
       </div>

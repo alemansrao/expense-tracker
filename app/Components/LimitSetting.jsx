@@ -9,6 +9,7 @@ const LimitSetting = ({ expenseCategory }) => {
   const [currentCategoryId, setCurrentCategoryId] = useState(''); // ID of selected category
   const [limit, setLimit] = useState(''); // Current limit value
   const [changedLimit, setChangedLimit] = useState(false); // Track if limit has changed
+  const [loading, setLoading] = useState(false); // Track loading state for button
   const updateButtonRef = useRef(null); // Ref for the update button
 
   // Initialize category and limit when expenseCategory data loads or changes
@@ -36,15 +37,22 @@ const LimitSetting = ({ expenseCategory }) => {
 
   // Submit updated limit
   const handleSubmit = async () => {
-    const response = await updateLimit({ limit, id: currentCategoryId });
+    setLoading(true); // Set loading to true to disable button
+    try {
+      const response = await updateLimit({ limit, id: currentCategoryId });
 
-    if (response.ok) {
-      const data = await response.json();
-      toast.success(`Limit for ${data.category.name} updated successfully`);
-      setChangedLimit(false);
-    } else {
-      const errorData = await response.json();
-      toast.error(errorData.error || 'An error occurred');
+      if (response.ok) {
+        const data = await response.json();
+        toast.success(`Limit for ${data.category.name} updated successfully`);
+        setChangedLimit(false);
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.error || 'An error occurred');
+      }
+    } catch (error) {
+      toast.error('An error occurred while updating the limit');
+    } finally {
+      setLoading(false); // Re-enable the button after response
     }
   };
 
@@ -106,8 +114,14 @@ const LimitSetting = ({ expenseCategory }) => {
 
   // Component footer with update button
   const footer = () => (
-    <Button variant="bordered" color='primary' onClick={handleUpdateClick} ref={updateButtonRef}>
-      Update
+    <Button
+      variant="bordered"
+      color="primary"
+      onClick={handleUpdateClick}
+      ref={updateButtonRef}
+      disabled={loading} // Disable button when loading is true
+    >
+      {loading ? 'Updating...' : 'Update'} {/* Show loading text when loading */}
     </Button>
   );
 
