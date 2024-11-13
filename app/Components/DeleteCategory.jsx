@@ -10,7 +10,7 @@ const DeleteCategory = ({ categories, setTemp }) => {
     const [loading, setLoading] = useState(false); // New loading state
 
     const disabledCategoryIds = categories
-        .filter(category => ['Food', 'Shopping', 'Transfer'].includes(category.name))
+        .filter(category => ['Food', 'Shopping', 'Transfer', 'Salary'].includes(category.name))
         .map(category => category._id);
 
     const handleDelete = async () => {

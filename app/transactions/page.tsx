@@ -39,15 +39,18 @@ const App = () => {
   const getTransactions = async () => {
     if (session) {
       const response = await fetch(`/api/transaction?username=${username}`);
-      const data = await response.json();
-      if (data.transactions.length === 0) {
-        console.log("No transactions found");
-        setEmptyTransactions(true);
+      let data 
+      if (response && response.ok) {
+        data = await response.json();
+        if (data?.transactions.length === 0) {
+          console.log("No transactions found");
+          setEmptyTransactions(true);
+        }
+        else {
+          setEmptyTransactions(false);
+        }
       }
-      else {
-        setEmptyTransactions(false);
-      }
-      setTransactions(data.transactions);
+      setTransactions(data?.transactions || []); // Use optional chaining to handle undefined data.transactions);
     }
   };
 

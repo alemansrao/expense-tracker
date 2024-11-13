@@ -55,6 +55,7 @@ export async function GET(request) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  const query = { username }
 
   if (startDate && endDate) {
     query.date = {

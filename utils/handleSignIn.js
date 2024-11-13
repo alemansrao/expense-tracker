@@ -76,6 +76,7 @@ async function createDefaultCategories(user) {
         { type: "Expense", name: "Shopping", username: user.email, limit: 5000 },
         { type: "Expense", name: "Food", username: user.email, limit: 5000 },
         { type: "Expense", name: "Transfer", username: user.email, limit: 5000 },
+        { type: "Income", name: "Salary", username: user.email },
     ];
 
     let allSuccess = true;
