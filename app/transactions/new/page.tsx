@@ -7,7 +7,7 @@ import { validateTransaction } from '@/utils/validation';
 import { submitTransaction } from '@/utils/api';
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { useDateFormatter } from "@react-aria/i18n";
-import { signIn,  useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 type Props = {}
 
@@ -160,8 +160,7 @@ const Page = (props: Props) => {
                             className="textarea textarea-bordered w-full max-w-xs md:max-w-md"
                         />
                     </div>
-                            <Button variant="bordered" color="primary" type='submit' className="gap-4 btn btn-primary btn-outline md:max-w-md self-center flex justify-center items-center" onClick={(e) => handleSubmit(e)}>Submit</Button>
-                    {/* <button className=' flex   gap-4 btn btn-primary btn-outline md:max-w-md'  onClick={(e) => handleSubmit(e)}>Submit</button> */}
+                    <Button variant="bordered" color="primary" type='submit' className="gap-4 btn btn-primary btn-outline md:max-w-md self-center flex justify-center items-center" onClick={(e) => handleSubmit(e)}>Submit</Button>
                 </form>
             </div>
         </div>
