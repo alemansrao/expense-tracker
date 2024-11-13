@@ -111,6 +111,37 @@ export const getWeeklyExpenses = async (username: string) => {
   }
 };
 
+export const fetchYearlyTransactions = async (username:string) => {
+  try {
+    // Define start date as the first day of the year
+    const startDate = new Date(new Date().getFullYear(), 0, 1); // Jan 1 of the current year
+    startDate.setHours(5, 30, 0, 0);
+
+    // Define end date as the last day of the year
+    const endDate = new Date(new Date().getFullYear(), 11, 31); // Dec 31 of the current year
+    endDate.setHours(5, 30, 0, 0);
+
+    const startDateISO = startDate.toISOString();
+    const endDateISO = endDate.toISOString();
+
+    // Fetch all transactions within the date range for the year
+    const response = await fetch(
+      `/api/transaction?username=${username}&startDate=${startDateISO}&endDate=${endDateISO}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Error fetching yearly transactions");
+    }
+
+    const data = await response.json();
+    return data.transactions;
+  } catch (error) {
+    console.error("Error fetching yearly transactions:", error);
+    return [];
+  }
+};
+
+
 export const fetchMonthlyTransactions = async (username: string) => {
   try {
     const startDate = new Date(new Date().setDate(1)); // First day of the month
