@@ -63,7 +63,7 @@ const IncomeExpenseGrowthChart = ({ username,allTransactions }) => {
       }
 
       const myChart = echarts.init(chartRef.current, "dark");
-      const titleText = allTransactions.length > 0 ? "Income vs Expenses" : "No Transactions Found";
+      const titleText = allTransactions.length > 0 ? "Income/Expenses Growth" : "No Transactions Found";
       const option = {
         title: {
           text: titleText,
