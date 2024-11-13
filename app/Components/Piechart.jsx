@@ -34,8 +34,9 @@ export default function PieChartComponent({ expenses }) {
                 title: {
                     text: titleText,
                     left: '5%',
-                    top: "2%"
-                },
+                    top: "5%"
+                    // subtext: 'Living Expenses in Shenzhen'
+                  },
                 tooltip: {
                     trigger: 'item'
                 },

@@ -8,7 +8,7 @@ import { fetchYearlyTransactions } from "@/utils/api"; // Adjust path as needed
 
 echarts.use([TitleComponent, LegendComponent, TooltipComponent, GridComponent, LineChart, CanvasRenderer]);
 
-const LineChartComponent = ({ username }) => {
+const LineChartComponent = ({ username, allSpendsOfYear }) => {
     const chartRef = useRef(null);
     const [monthlyData, setMonthlyData] = useState([]);
 
@@ -16,15 +16,17 @@ const LineChartComponent = ({ username }) => {
         const loadMonthlyExpenseData = async () => {
             try {
                 // Fetch transactions for the current year based on the provided API
-                const transactions = await fetchYearlyTransactions(username);
+                // const allSpendsOfYear = await fetchYearlyTransactions(username);
 
                 // Initialize an array for 12 months to store monthly expenses
                 const expensesPerMonth = Array(12).fill(0);
-
+                console.log("Length of allSpendsOfYear", allSpendsOfYear.length)
                 // Format transactions data into monthly expenses
-                transactions.forEach(transaction => {
-                    const transactionMonth = new Date(transaction.date).getMonth();
-                    expensesPerMonth[transactionMonth] += transaction.amount;
+                allSpendsOfYear.forEach(transaction => {
+                    if (transaction.type === "Expense") {
+                        const transactionMonth = new Date(transaction.date).getMonth();
+                        expensesPerMonth[transactionMonth] += transaction.amount;
+                    }
                 });
 
                 setMonthlyData(expensesPerMonth);
@@ -34,7 +36,7 @@ const LineChartComponent = ({ username }) => {
         };
 
         loadMonthlyExpenseData();
-    }, [username]);
+    }, [username,allSpendsOfYear]);
 
     useEffect(() => {
         if (chartRef.current) {
@@ -68,7 +70,7 @@ const LineChartComponent = ({ username }) => {
                     name: "Expense Amount",
                     nameTextStyle: {
                         align: "center"
-                      },
+                    },
                 },
 
                 series: [

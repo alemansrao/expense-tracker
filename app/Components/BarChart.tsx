@@ -36,7 +36,7 @@ export default function BarChartComponent({ expenses }: BarChartProps) {
         const dayOfWeek = transactionDate.getDay(); // Get the day (0-Sun, 1-Mon, ..., 6-Sat)
         expenseData[dayOfWeek] += transaction.amount; // Directly add amount to corresponding day
       });
-      const titleText = expenses.length > 0 ? "Weekly Expenses" : "No Transactions Found";
+      const titleText = expenses.length > 0 ? "Daily Expenses" : "No Transactions Found";
 
       const option: EChartsOption = {
         title: {

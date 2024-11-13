@@ -60,12 +60,12 @@ export default function App() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarMenu className="dark">
+      <NavbarMenu className="dark justify-center">
         <NavbarItem>
           {/* <Button variant="bordered" className="w-full text-foreground hover:text-primary" onClick={() => handleMenuItemClick('/transactions')}>
             All Transactions
           </Button> */}
-          <h1 onClick={() => handleMenuItemClick('/transactions')} className="w-full text-foreground hover:text-primary">
+          <h1 onClick={() => handleMenuItemClick('/transactions')} className="w-full text-foreground hover:text-primary text-2xl">
             All Transactions
           </h1>
         </NavbarItem>
@@ -74,7 +74,7 @@ export default function App() {
             New Transaction
           </Button> */}
 
-          <h1 onClick={() => handleMenuItemClick('/transactions/new')} className="w-full text-foreground hover:text-primary">
+          <h1 onClick={() => handleMenuItemClick('/transactions/new')} className="w-full text-foreground hover:text-primary  text-2xl">
             New Transactions
           </h1>
         </NavbarItem>
@@ -82,7 +82,7 @@ export default function App() {
           {/* <Button variant="bordered" className="w-full text-foreground hover:text-primary" onClick={() => handleMenuItemClick('/settings')}>
             Settings
           </Button> */}
-          <h1 onClick={() => handleMenuItemClick('/settings')} className="w-full text-foreground hover:text-primary">
+          <h1 onClick={() => handleMenuItemClick('/settings')} className="w-full text-foreground hover:text-primary text-2xl">
            Settings
           </h1>
         </NavbarItem>

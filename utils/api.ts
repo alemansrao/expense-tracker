@@ -126,7 +126,7 @@ export const fetchYearlyTransactions = async (username:string) => {
 
     // Fetch all transactions within the date range for the year
     const response = await fetch(
-      `/api/transaction?username=${username}&startDate=${startDateISO}&endDate=${endDateISO}`
+      `/api/transaction?username=${username}&startDate=${startDateISO}&endDate=${endDateISO}&all=true`
     );
 
     if (!response.ok) {
