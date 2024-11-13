@@ -7,7 +7,7 @@ import { validateTransaction } from '@/utils/validation';
 import { submitTransaction } from '@/utils/api';
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { useDateFormatter } from "@react-aria/i18n";
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signIn,  useSession } from 'next-auth/react';
 import Image from 'next/image';
 type Props = {}
 
@@ -17,7 +17,6 @@ type Category = {
     username: string;
     _id: string;
 };
-const notes = ['Monthly spend', 'Savings', 'Credit Card', 'Debit Card', 'Other'];
 
 const Page = (props: Props) => {
     const { data: session } = useSession();
@@ -32,7 +31,7 @@ const Page = (props: Props) => {
     });
     const [category, setCategory] = useState("");
     const [username] = useState(`${session?.user?.email}`);
-    const [description, setDescription] = useState(notes[Math.floor(Math.random() * notes.length)]);
+    const [description, setDescription] = useState("");
 
     const [allCategories, setAllCategories] = useState([]); // Store all categories (both Income and Expense)
     const [allowedCategories, setAllowedCategories] = useState<Category[]>([]); // Initialize as an empty array // Store filtered categories based on type
@@ -64,7 +63,7 @@ const Page = (props: Props) => {
 
 
     useEffect(() => {
-        setAmount(Math.round(Math.random() * 1000));
+        setAmount(0);
         const fetchCategories = async () => {
             const categories = await getCategory(username);
             if (!categories) toast.warning('There are no Categories yet, You can add in settings');
@@ -97,12 +96,19 @@ const Page = (props: Props) => {
         </div>;
 
     return (
-        <div className='md:flex md:flex-row md:gap-5 md:h-[calc(100vh-4rem)] bg-black '>
+        <div className='md:flex md:flex-row md:gap-5 md:h-[calc(100vh-4rem)] bg-black flex flex-col gap-5'>
             <div className='md:w-1/2 justify-center items-center h-full hidden md:flex'>
-                <Image src="https://cdn-icons-png.flaticon.com/512/7601/7601286.png"
+                <Image src="/newTransaction1.png"
                     width={400} height={400}
                     alt=""
                     className=''>
+                </Image>
+            </div>
+            <div className='md:w-1/2 justify-center items-center h-full  md:hidden flex'>
+                <Image src="/newTransaction.png"
+                    width={400} height={400}
+                    alt=""
+                    className='flex items-center rounded-3xl'>
                 </Image>
             </div>
 
@@ -154,8 +160,8 @@ const Page = (props: Props) => {
                             className="textarea textarea-bordered w-full max-w-xs md:max-w-md"
                         />
                     </div>
-
-                    <button className=' flex justify-center items-center self-center gap-4 btn btn-primary btn-outline md:max-w-md' type="submit" onClick={(e) => handleSubmit(e)}>Submit</button>
+                            <Button variant="bordered" color="primary" type='submit' className="gap-4 btn btn-primary btn-outline md:max-w-md self-center flex justify-center items-center" onClick={(e) => handleSubmit(e)}>Submit</Button>
+                    {/* <button className=' flex   gap-4 btn btn-primary btn-outline md:max-w-md'  onClick={(e) => handleSubmit(e)}>Submit</button> */}
                 </form>
             </div>
         </div>
