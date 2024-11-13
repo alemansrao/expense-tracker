@@ -63,7 +63,6 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-    console.error("POST category error:", error);
     return NextResponse.json(
       { error: "Error creating category" },
       { status: 500 }

@@ -42,7 +42,7 @@ export const getLimit = async (username: string = "sharathrao99@gmail.com", cate
 
 export const createCategory = async (categoryData: any) => {
   try {
-    const response = await fetch("/api/category", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/category`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(categoryData)

@@ -1,4 +1,5 @@
 import { createCategory } from '@/utils/api';
+
 async function handleUserSignIn(user) {
     if (!user.email || !user.name) {
         console.error("User's email or name not provided.");
@@ -6,7 +7,30 @@ async function handleUserSignIn(user) {
     }
 
     try {
-        // Check if user exists by fetching the list of emails from the users API
+        // Step 1: Check if user exists in the database
+        const userExists = await checkIfUserExists(user.email);
+        if (userExists) {
+            console.log("User already exists in the database.");
+            return;
+        }
+
+        // Step 2: Add new user to the database
+        const userAdded = await addUserToDatabase(user);
+        if (userAdded) {
+            console.log("User added to the database.");
+        }
+
+        // Step 3: Create mandatory categories for the new user
+        await createDefaultCategories(user);
+
+    } catch (error) {
+        console.error("Error handling user sign-in:", error);
+    }
+}
+
+// Function to check if user exists
+async function checkIfUserExists(email) {
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
             method: "GET",
             credentials: "same-origin",
@@ -14,79 +38,69 @@ async function handleUserSignIn(user) {
 
         if (!response.ok) {
             console.error("Failed to fetch users:", response.statusText);
-            return;
+            return false;
         }
 
         const emails = await response.json();
+        return emails.includes(email);
+    } catch (error) {
+        console.error("Error checking if user exists:", error);
+        return false;
+    }
+}
 
-        // If user exists, exit
-        if (emails.includes(user.email)) {
-            console.log("User already exists in the database.");
-            return;
-        }
-
-        // Otherwise, add the user
-        const addUserResponse = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
+// Function to add a new user to the database
+async function addUserToDatabase(user) {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             credentials: "same-origin",
             body: JSON.stringify({ name: user.name, email: user.email }),
         });
 
-        if (!addUserResponse.ok) {
-            console.error("Failed to add user:", addUserResponse.statusText);
-        } else {
-            console.log("User added to the database.");
+        if (!response.ok) {
+            console.error("Failed to add user:", response.statusText);
+            return false;
         }
-
-        // if user added then add 3 category for the user with default limit of 5000
-        const categoryData = {
-            name: "Shopping",
-            type: "Expense",
-            username: user.email,
-            limit: 5000
-        };
-
-        // Call the createCategory function
-        const createCategoryResponse = await createCategory(categoryData);
-        const categoryData1 = {
-            name: "Savings",
-            type: "Expense",
-            username: user.email,
-            limit: 5000
-        };
-
-        // Call the createCategory function
-        const createCategoryResponse1 = await createCategory(categoryData1);
-        const categoryData2 = {
-            name: "Transfer",
-            type: "Expense",
-            username: user.email,
-            limit: 5000
-        };
-
-        // Call the createCategory function
-        const createCategoryResponse2 = await createCategory(categoryData2);
-
-        if (!createCategoryResponse.ok) {
-            console.error("Failed to create category:", createCategoryResponse.statusText);
-        }
-        else if (!createCategoryResponse1.ok) {
-            console.error("Failed to create category:", createCategoryResponse1.statusText);
-        }
-        else if (!createCategoryResponse2.ok) {
-            console.error("Failed to create category:", createCategoryResponse2.statusText);
-        }
-        else {
-            console.log("Mandatory Categories added to the database.");
-        }
-
+        return true;
     } catch (error) {
-        console.error("Error handling user sign-in:", error);
+        console.error("Error adding user to database:", error);
+        return false;
     }
 }
 
+// Function to create default categories for a new user
+async function createDefaultCategories(user) {
+    const categories = [
+        { type: "Expense", name: "Shopping", username: user.email, limit: 5000 },
+        { type: "Expense", name: "Savings", username: user.email, limit: 5000 },
+        { type: "Expense", name: "Transfer", username: user.email, limit: 5000 },
+    ];
+
+    let allSuccess = true;
+
+    for (const category of categories) {
+        try {
+            const response = await createCategory(category);
+
+            if (response.ok) {
+                console.log(`${category.name} category created successfully.`);
+            } else {
+                console.error(`Failed to create ${category.name} category:`, response.statusText);
+                allSuccess = false;
+            }
+        } catch (error) {
+            console.error(`Error creating ${category.name} category:`, error);
+            allSuccess = false;
+        }
+    }
+
+    if (allSuccess) {
+        console.log("All mandatory categories added to the database.");
+    } else {
+        console.warn("Some categories failed to be added to the database.");
+    }
+}
 
 export default handleUserSignIn;

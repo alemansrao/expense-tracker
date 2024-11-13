@@ -37,16 +37,18 @@ const App = () => {
   const [allowedCategories, setAllowedCategories] = useState<Category[]>([]); // Initialize as an empty array // Store filtered categories based on type
 
   const getTransactions = async () => {
-    const response = await fetch(`/api/transaction?username=${username}`);
-    const data = await response.json();
-    if (data.transactions.length === 0) {
-      console.log("No transactions found");
-      setEmptyTransactions(true);
+    if (session) {
+      const response = await fetch(`/api/transaction?username=${username}`);
+      const data = await response.json();
+      if (data.transactions.length === 0) {
+        console.log("No transactions found");
+        setEmptyTransactions(true);
+      }
+      else {
+        setEmptyTransactions(false);
+      }
+      setTransactions(data.transactions);
     }
-    else {
-      setEmptyTransactions(false);
-    }
-    setTransactions(data.transactions);
   };
 
   const deleteTransaction = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
