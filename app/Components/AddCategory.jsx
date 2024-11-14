@@ -88,7 +88,7 @@ const AddCategory = (props) => {
         </form>
     )
     const footer = () => (
-        <Button variant="bordered" color="primary" className="" onClick={handleSubmit}> Add </Button>
+        <Button variant="bordered" color="primary" className="" onClick={handleSubmit} onTouchEnd={(e) => {handleSubmit(e);console.log("touch ended")}}>  Add </Button>
     )
 
     return (

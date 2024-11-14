@@ -39,7 +39,7 @@ const Page = (props: Props) => {
     const validateData = () => {
         return type && amount > 0 && date && category && description;
     };
-    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.TouchEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (!category) {
             console.log("Please select a category");
@@ -98,7 +98,7 @@ const Page = (props: Props) => {
     return (
         <div className='md:flex md:flex-row md:gap-5 md:h-[calc(100vh-4rem)] bg-black flex flex-col gap-5'>
             <div className='md:w-1/2 justify-center items-center h-full hidden md:flex'>
-                <Image src="/newTransaction1.png"
+                <Image src="/newTransaction2.png"
                     width={400} height={400}
                     alt=""
                     className=''>
@@ -160,7 +160,9 @@ const Page = (props: Props) => {
                             className="textarea textarea-bordered w-full max-w-xs md:max-w-md"
                         />
                     </div>
-                    <Button variant="bordered" color="primary" type='submit' className="gap-4 btn btn-primary btn-outline md:max-w-md self-center flex justify-center items-center" onClick={(e) => handleSubmit(e)}>Submit</Button>
+                    <Button variant="bordered" color="primary" type='submit'
+                        className="gap-4 btn btn-primary btn-outline md:max-w-md self-center flex justify-center items-center"
+                        onClick={(e) => handleSubmit(e)} onTouchEnd={(e) => {handleSubmit(e);console.log("touch ended")}}>Submit</Button>
                 </form>
             </div>
         </div>
