@@ -126,16 +126,6 @@ const Page = (props: Props) => {
                             <SelectItem key={"Income"} value="Income">Income</SelectItem>
                         </Select>
                     </div>
-
-                    <div className='flex justify-center items-center gap-4'>
-                        <Input type='number' label="Amount" value={amount.toString()} onChange={(e) => setAmount(parseInt(e.target.value))} className='w-full max-w-xs md:max-w-md' />
-                    </div>
-
-                    <div className='flex justify-center items-center gap-4'>
-                        <Input className='w-full max-w-xs md:max-w-md' label="Transaction Date" type='date' value={date} onChange={(e) => setDate(e.target.value)} />
-                    </div>
-
-
                     <div className='flex justify-center items-center gap-4'>
                         <Select
                             value={type}
@@ -149,6 +139,16 @@ const Page = (props: Props) => {
                             ))}
                         </Select>
                     </div>
+                    <div className='flex justify-center items-center gap-4'>
+                        <Input type='number' label="Amount" value={amount.toString()} onChange={(e) => setAmount(parseInt(e.target.value))} className='w-full max-w-xs md:max-w-md' />
+                    </div>
+
+                    <div className='flex justify-center items-center gap-4'>
+                        <Input className='w-full max-w-xs md:max-w-md' label="Transaction Date" type='date' value={date} onChange={(e) => setDate(e.target.value)} />
+                    </div>
+
+
+                    
 
                     <div className='flex justify-center items-center gap-4'>
                         <Textarea
