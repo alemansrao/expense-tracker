@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, Button } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, Button } from "@heroui/react";
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
 import { signIn, signOut, useSession } from 'next-auth/react';

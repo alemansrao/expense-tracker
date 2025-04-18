@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { Edit2, Eye, Trash2 } from 'react-feather';
 import { toast } from 'react-toastify';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Textarea, Input, Select, SelectItem } from "@nextui-org/react";
-import { Skeleton } from "@nextui-org/skeleton";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@heroui/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip, Textarea, Input, Select, SelectItem } from "@heroui/react";
+import { Skeleton } from "@heroui/skeleton";
 import { getCategory } from '@/utils/api';
 import { signIn, signOut, useSession } from 'next-auth/react';
 

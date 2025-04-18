@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { ArrowRight, Tool } from 'react-feather';
 import Card from '@/app/Components/Card';
 import { getLimit, updateLimit } from '@/utils/api';
-import { Select, SelectItem, Input, Skeleton, Button } from '@nextui-org/react';
+import { Select, SelectItem, Input, Skeleton, Button } from "@heroui/react";
 
 const LimitSetting = ({ expenseCategory }) => {
   const [currentCategoryId, setCurrentCategoryId] = useState(''); // ID of selected category

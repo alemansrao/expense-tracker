@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getCategory } from '@/utils/api';
 import { validateTransaction } from '@/utils/validation';
 import { submitTransaction } from '@/utils/api';
-import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem, Textarea } from "@heroui/react";
 import { useDateFormatter } from "@react-aria/i18n";
 import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -122,8 +122,8 @@ const Page = (props: Props) => {
                             onChange={(e) => setType(e.target.value)}
                             className="w-full max-w-xs md:max-w-md"
                         >
-                            <SelectItem key={"Expense"} value="Expense">Expense</SelectItem>
-                            <SelectItem key={"Income"} value="Income">Income</SelectItem>
+                            <SelectItem key={"Expense"}>Expense</SelectItem>
+                            <SelectItem key={"Income"}>Income</SelectItem>
                         </Select>
                     </div>
                     <div className='flex justify-center items-center gap-4'>
@@ -135,7 +135,7 @@ const Page = (props: Props) => {
                             className="w-full max-w-xs md:max-w-md"
                         >
                             {allowedCategories.map((cat: any) => (
-                                <SelectItem key={cat.name} value={cat.name}>{cat.name}</SelectItem>
+                                <SelectItem key={cat.name} >{cat.name}</SelectItem>
                             ))}
                         </Select>
                     </div>
@@ -148,7 +148,7 @@ const Page = (props: Props) => {
 
 
 
-                    
+
 
                     <div className='flex justify-center items-center gap-4'>
                         <Textarea
@@ -162,7 +162,7 @@ const Page = (props: Props) => {
                     </div>
                     <Button variant="bordered" color="primary" type='submit'
                         className="gap-4 btn btn-primary btn-outline md:max-w-md self-center flex justify-center items-center"
-                        onClick={(e) => handleSubmit(e)} onTouchEnd={(e) => {handleSubmit(e);console.log("touch ended")}}>Submit</Button>
+                        onClick={(e) => handleSubmit(e)} onTouchEnd={(e) => { handleSubmit(e); console.log("touch ended") }}>Submit</Button>
                 </form>
             </div>
         </div>

@@ -6,7 +6,7 @@ import Piechart from './Components/Piechart';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import 'react-toastify/dist/ReactToastify.css';
 import { getWeeklyExpenses, fetchMonthlyTransactions } from "@/utils/api";
-import { Button, Skeleton } from '@nextui-org/react'
+import { Button, Skeleton } from "@heroui/react"
 import LineChart from './Components/LineChart';
 import BudgetUtilizationChart from './Components/BudgetUtilizationChart';
 import IncomeExpenseGrowthChart from './Components/IncomeExpenseGrowthChart';

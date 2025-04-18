@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "./Components/Navbar"
 import './globals.css'
 import SessionProvider from "@/app/Components/SessionProvider";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { getServerSession } from "next-auth";
 export const metadata = {
   title: 'Expense Tracker',
@@ -20,10 +20,10 @@ export default async function RootLayout({
     <html lang="en">
       <body className="dark text-foreground bg-background min-h-dvh h-fit">
         <SessionProvider session={session}>
-          <NextUIProvider>
+          <HeroUIProvider>
               <Navbar />
               {children}
-          </NextUIProvider>
+          </HeroUIProvider>
         </SessionProvider>
               <ToastContainer
                 position="bottom-right"

@@ -4,8 +4,8 @@ import { createCategory } from '@/utils/api';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Card from '@/app/Components/Card';
-import { Divider } from '@nextui-org/react';
-import { Input, Select, SelectItem, Button } from "@nextui-org/react";
+import { Divider } from "@heroui/react";
+import { Input, Select, SelectItem, Button } from "@heroui/react";
 
 const AddCategory = (props) => {
     const animals = [

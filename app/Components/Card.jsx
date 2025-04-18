@@ -1,5 +1,5 @@
-import { Card, CardHeader, CardBody, CardFooter, Divider, Button } from "@nextui-org/react";
-import { Input, Select, SelectItem } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter, Divider, Button } from "@heroui/react";
+import { Input, Select, SelectItem } from "@heroui/react";
 export default function App({ image, title, body, footer }) {
     const animals = [
         { key: 1, label: "Income" },

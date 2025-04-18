@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import Card from "@/app/Components/Card";
 import { Trash } from 'react-feather';
-import { Button, Select, SelectItem, Skeleton } from '@nextui-org/react';
+import { Button, Select, SelectItem, Skeleton } from "@heroui/react";
 
 const DeleteCategory = ({ categories, setTemp }) => {
     const [currentCategory, setCurrentCategory] = useState(null);
