@@ -233,8 +233,8 @@ const App = () => {
                   onChange={(e: any) => handleFieldChange("type", e.target.value)}
                   className="w-full"
                 >
-                  <SelectItem key={"Expense"} value="Expense">Expense</SelectItem>
-                  <SelectItem key={"Income"} value="Income">Income</SelectItem>
+                  <SelectItem key={"Expense"} >Expense</SelectItem>
+                  <SelectItem key={"Income"} >Income</SelectItem>
                 </Select>
                 {/* <label>Amount:</label>
                 <input
@@ -266,7 +266,7 @@ const App = () => {
                   className="w-full"
                 >
                   {allowedCategories.map((category) => (
-                    <SelectItem key={category.name} value={category.name}>{category.name}</SelectItem>
+                    <SelectItem key={category.name} >{category.name}</SelectItem>
                   ))}
                 </Select>
 
